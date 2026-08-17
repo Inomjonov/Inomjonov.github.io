@@ -120,6 +120,22 @@ span.highlight {
   border-radius: 10px;
 }
 
+/* Employer / university logos. Square marks and wide wordmarks are
+   normalised into the same optical box so the column reads evenly. */
+.logo {
+  width: auto;
+  height: 62px;
+  max-width: 100%;
+  object-fit: contain;
+  vertical-align: middle;
+}
+
+.logo-wide {
+  height: auto;
+  width: 100%;
+  max-width: 145px;
+}
+
 /* Stack the intro and row layouts on narrow screens */
 @media (max-width: 640px) {
   table td {
