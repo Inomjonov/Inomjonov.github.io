@@ -1,17 +1,17 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
-  <rect width="160" height="160" fill="#eef1f4"/>
-  <g stroke="#b6c2cd" stroke-width="1.2">
+  <rect width="160" height="160" fill="#161c28"/>
+  <g stroke="#3c4a5e" stroke-width="1.2">
     <line x1="38" y1="52" x2="80" y2="40"/><line x1="38" y1="52" x2="80" y2="80"/>
     <line x1="38" y1="52" x2="80" y2="120"/><line x1="38" y1="108" x2="80" y2="40"/>
     <line x1="38" y1="108" x2="80" y2="80"/><line x1="38" y1="108" x2="80" y2="120"/>
     <line x1="80" y1="40" x2="124" y2="80"/><line x1="80" y1="80" x2="124" y2="80"/>
     <line x1="80" y1="120" x2="124" y2="80"/>
   </g>
-  <g fill="#5c7b96">
+  <g fill="#7fa8cc">
     <circle cx="38" cy="52" r="6"/><circle cx="38" cy="108" r="6"/>
     <circle cx="80" cy="40" r="6"/><circle cx="80" cy="80" r="6"/><circle cx="80" cy="120" r="6"/>
   </g>
-  <circle cx="124" cy="80" r="6" fill="#a8502a"/>
-  <path d="M124 96 L124 126 M117 119 L124 126 L131 119" stroke="#a8502a"
+  <circle cx="124" cy="80" r="6" fill="#f09228"/>
+  <path d="M124 96 L124 126 M117 119 L124 126 L131 119" stroke="#f09228"
         stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

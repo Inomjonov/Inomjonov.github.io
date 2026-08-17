@@ -53,14 +53,36 @@
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
 
+/* Dark palette. To go pure black instead of dark blue, set --bg to #000
+   and --thumb-bg to #111. */
+:root {
+  --bg:      #0b0f19;
+  --text:    #c6d1e0;
+  --heading: #e8eef6;
+  --muted:   #8593a6;
+  --link:    #6cb0f5;
+  --hover:   #f09228;
+}
+
+html {
+  background: var(--bg);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  margin: 0;
+  padding: 0 0 40px;
+}
+
 a {
-  color: #1772d0;
+  color: var(--link);
   text-decoration: none;
 }
 
 a:focus,
 a:hover {
-  color: #f09228;
+  color: var(--hover);
   text-decoration: none;
 }
 
@@ -74,9 +96,21 @@ a {
   font-size: 14px;
 }
 
+td,
+th,
+tr,
+p {
+  color: var(--text);
+}
+
 strong {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
+  color: var(--heading);
+}
+
+em {
+  color: var(--muted);
 }
 
 h2 {
@@ -84,15 +118,17 @@ h2 {
   font-weight: normal;
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 22px;
+  color: var(--heading);
 }
 
 code {
   font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   font-size: 13px;
+  color: var(--heading);
 }
 
 .date {
-  color: #767676;
+  color: var(--muted);
   font-size: 13px;
 }
 
@@ -107,17 +143,12 @@ code {
   margin: 0;
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 32px;
+  color: var(--heading);
 }
+
 
 span.highlight {
-  background-color: #ffffd0;
-}
-
-.colored-box {
-  color: black;
-  padding: 20px;
-  display: inline-block;
-  border-radius: 10px;
+  background-color: #33405a;
 }
 
 /* Employer / university logos. Square marks and wide wordmarks are
@@ -128,12 +159,17 @@ span.highlight {
   max-width: 100%;
   object-fit: contain;
   vertical-align: middle;
+  border-radius: 10px;
 }
 
+/* Wordmarks are much wider than the square marks, so cap them on both
+   axes: wide ones land on max-width, tall ones on max-height. */
 .logo-wide {
+  width: auto;
   height: auto;
-  width: 100%;
-  max-width: 145px;
+  max-width: 100%;
+  max-height: 62px;
+  border-radius: 0;
 }
 
 /* Stack the intro and row layouts on narrow screens */
