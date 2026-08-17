@@ -6,7 +6,7 @@
     <title>Mironshoh Inomjonov</title>
 
     <meta name="author" content="Mironshoh Inomjonov">
-    <meta name="description" content="ML Engineer at tilmoch.ai working on NLP and machine translation for Turkic languages.">
+    <meta name="description" content="Research Engineer at tilmoch.ai working on LLM alignment, machine translation and NLP for Turkic languages.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
 
@@ -25,28 +25,36 @@
                   Mironshoh Inomjonov
                 </p>
                 <p>
-                  I'm a Machine Learning Engineer at <a href="https://tilmoch.ai/">tilmoch.ai</a>, where I work on
-                  research and engineering for NLP and Machine Translation, mostly for Uzbek and other Turkic languages.
+                  I'm a Research Engineer at <a href="https://tilmoch.ai/">tilmoch.ai</a>, where I work on LLM
+                  alignment, post-training methods for Machine Translation models, and large-scale data pipelines.
+                  Most of my work is on Uzbek and other Turkic languages.
                 </p>
                 <p>
-                  These are low-resource languages that mainstream models handle poorly simply because so little data
-                  exists for them. My work runs across that whole pipeline &mdash; building translation datasets,
-                  training models on top of them, and evaluating how well they actually do.
+                  These are low-resource languages that mainstream models handle poorly, simply because so little data
+                  exists for them. So much of the work is building the data that should have existed already &mdash;
+                  mining parallel corpora, then aligning, training and evaluating on top of them.
                 </p>
                 <p>
-                  Outside of that I like building things from scratch to understand them properly: autodiff engines,
-                  CUDA kernels, and reimplementations of papers I want to know inside out.
+                  Before tilmoch.ai I worked on computer vision and speech at <a href="https://ventionteams.com/">Vention</a>,
+                  and on applied ML systems at <a href="https://kpi.com/">KPI.com</a>. I hold a BSc in Software
+                  Engineering from <a href="https://newuu.uz/">New Uzbekistan University</a>, on a Presidential
+                  scholarship.
                 </p>
 
                 <p style="text-align:center">
+                  <a href="mailto:mironshohinomjon@gmail.com">Email</a> &nbsp;/&nbsp;
+                  <a href="data/Mironshoh_Inomjonov_CV.pdf">CV</a> &nbsp;/&nbsp;
+                  <a href="https://scholar.google.com/citations?user=DFRA2nUAAAAJ">Scholar</a> &nbsp;/&nbsp;
                   <a href="https://github.com/Inomjonov">Github</a> &nbsp;/&nbsp;
+                  <a href="https://huggingface.co/Inomjonov">Huggingface</a> &nbsp;/&nbsp;
                   <a href="https://www.linkedin.com/in/mironshoh-inomjonov/">LinkedIn</a>
                 </p>
 
               </td>
               <td style="padding:2.5%;width:37%;max-width:37%">
-                <img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%;"
-                     alt="profile photo" src="images/profile.svg">
+                <img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%; aspect-ratio: 1 / 1;"
+                     alt="Mironshoh Inomjonov" src="images/profile.jpg"
+                     onerror="this.onerror=null;this.src='images/profile.svg';">
               </td>
             </tr>
           </tbody></table>
@@ -57,8 +65,8 @@
               <td style="padding:16px;width:100%;vertical-align:middle">
                 <h2 id="research">Research</h2>
                 <p>
-                  I'm interested in Machine Translation and NLP for low-resource languages. Most of my research is on
-                  Uzbek and other Turkic languages.
+                  I'm interested in Machine Translation, LLM alignment and NLP for low-resource languages. Most of my
+                  research is on Uzbek and other Turkic languages.
                 </p>
               </td>
             </tr>
@@ -80,7 +88,7 @@
                 <a href="https://murodbecks.github.io/">Abror Shopulatov</a>,
                 <strong>Mironshoh Inomjonov</strong>
                 <br>
-                <em>WMT</em>, 2025
+                <em>WMT</em>, EMNLP 2025
                 <br>
                 <a href="https://aclanthology.org/2025.wmt-1.83/">paper</a>
                 /
@@ -133,20 +141,46 @@
                 <a href="https://github.com/karpathy/micrograd">micrograd</a>
                 <p></p>
                 <p>
-                  An automatic differentiation library in the spirit of micrograd, extended from scalar to vector
-                  operations. It ships <code>Neuron</code>, <code>Layer</code> and <code>MLP</code> primitives with
-                  ReLU and tanh, so you can define a network and train it end to end on top of the engine.
+                  A deep learning framework inspired by Karpathy's micrograd. It implements reverse-mode automatic
+                  differentiation over a dynamically built DAG, extending scalar micrograd-style autodiff to vectors,
+                  and includes a minimal neural-network library with a PyTorch-like API. Install it with
+                  <code>pip install neurograd-vec</code>.
+                </p>
+              </td>
+            </tr>
+
+            <tr>
+              <td style="padding:16px;width:20%;vertical-align:middle">
+                <img src="images/speech.svg" width="100%" alt="Uzbek speech models">
+              </td>
+              <td style="padding:8px;width:80%;vertical-align:middle">
+                <a href="https://huggingface.co/Inomjonov">
+                  <span class="papertitle">Uzbek Speech Models</span>
+                </a>
+                <br>
+                <strong>Mironshoh Inomjonov</strong>
+                <br>
+                <em>Hugging Face</em>, 2025
+                <br>
+                <a href="https://huggingface.co/Inomjonov/mironshoh-whisper-medium-uz-10k">STT model</a>
+                /
+                <a href="https://huggingface.co/Inomjonov/mironshoh-speecht5-tts-0702">TTS model</a>
+                <p></p>
+                <p>
+                  End-to-end Uzbek speech-to-text and text-to-speech pipelines, built by fine-tuning Whisper-Medium and
+                  SpeechT5 on a single NVIDIA T4. The STT model reaches 20% WER from only 10 hours of speech data
+                  &mdash; a useful result for how little supervision a low-resource language usually has.
                 </p>
               </td>
             </tr>
 
           </tbody></table>
 
-          <!-- ===== Roles ===== -->
+          <!-- ===== Experience ===== -->
           <table style="width:100%; margin:0 auto; border:0; border-spacing:0; padding:16px;"><tbody>
             <tr>
               <td>
-                <h2 id="roles">Roles</h2>
+                <h2 id="experience">Experience</h2>
               </td>
             </tr>
           </tbody></table>
@@ -160,36 +194,91 @@
                 </div>
               </td>
               <td style="padding:8px;width:80%;vertical-align:middle">
-                <strong>Machine Learning Engineer.</strong> Research and engineering on NLP and Machine Translation.
-                Tilmoch is a translation engine built for Central Asia, covering Uzbek, Kazakh, Karakalpak and Turkish,
-                and reaching noticeably better accuracy on these languages than general-purpose translation services.
+                <strong>Research Engineer</strong> &nbsp;<span class="date">Apr. 2025 &ndash; Present</span><br>
+                <em>Tashkent, Uzbekistan</em>
+                <p></p>
+                <p>
+                  Research on LLM alignment and post-training methods for MT models, plus large-scale data pipelines.
+                  Implemented Contrastive Preference Optimization (CPO) fine-tuning, raising COMET score over the
+                  baseline. Built an end-to-end parallel data mining pipeline that aligns sentences from literary
+                  translations via LaBSE cosine similarity, deployed on GCP.
+                </p>
               </td>
             </tr>
 
             <tr>
               <td align="center" style="padding:16px;width:20%;vertical-align:middle">
                 <div class="colored-box" style="background-color: #c6b89e;">
-                  <h2>Tahrirchi</h2>
+                  <h2>Vention</h2>
                 </div>
               </td>
               <td style="padding:8px;width:80%;vertical-align:middle">
-                <strong>ML.</strong> NLP research and development for Uzbek and other Turkic languages, spanning
-                grammatical error correction and machine translation. Tilmoch grew out of this work.
+                <strong>ML Engineer</strong> &nbsp;<span class="date">Dec. 2024 &ndash; Apr. 2025</span><br>
+                <em>Tashkent, Uzbekistan</em>
+                <p></p>
+                <p>
+                  Real-time computer vision for object and action detection in surgical environments, using YOLO,
+                  MobileNet and ViT on 15 FPS video streams. Designed a Laplacian-variance classifier that tells
+                  surgical smoke apart from a fogged camera lens, for live visual quality assessment. Also built the
+                  Uzbek STT and TTS pipelines above.
+                </p>
+              </td>
+            </tr>
+
+            <tr>
+              <td align="center" style="padding:16px;width:20%;vertical-align:middle">
+                <div class="colored-box" style="background-color: #edd892;">
+                  <h2>KPI.com</h2>
+                </div>
+              </td>
+              <td style="padding:8px;width:80%;vertical-align:middle">
+                <strong>ML Engineer</strong> &nbsp;<span class="date">Apr. 2023 &ndash; Dec. 2024</span><br>
+                <em>London (Remote)</em>
+                <p></p>
+                <p>
+                  Built a RAG chatbot with caching that cut mean response time from 5 seconds to 2. Developed an
+                  image-based invoice parsing system by fine-tuning Donut and deploying it on AWS EC2, and engineered
+                  the FastAPI back-end serving every ML pipeline.
+                </p>
               </td>
             </tr>
 
           </tbody></table>
 
-          <!-- ===== Footer ===== -->
-          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+          <!-- ===== Education ===== -->
+          <table style="width:100%; margin:0 auto; border:0; border-spacing:0; padding:16px;"><tbody>
             <tr>
-              <td style="padding:0px">
-                <br>
-                <p style="text-align:right;font-size:small;">
-                  Feel free to steal this website's
-                  <a href="https://github.com/jonbarron/jonbarron.github.io">source code</a>.
+              <td>
+                <h2 id="education">Education</h2>
+              </td>
+            </tr>
+          </tbody></table>
+
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+
+            <tr>
+              <td align="center" style="padding:16px;width:20%;vertical-align:middle">
+                <div class="colored-box" style="background-color: #9eb3ba;">
+                  <h2>NewUU</h2>
+                </div>
+              </td>
+              <td style="padding:8px;width:80%;vertical-align:middle">
+                <strong>BSc, Software Engineering</strong> &nbsp;<span class="date">2021 &ndash; 2025</span><br>
+                <em><a href="https://newuu.uz/">New Uzbekistan University</a> &mdash; Tashkent, Uzbekistan</em>
+                <p></p>
+                <p>
+                  Recipient of the Presidential scholarship, covering full undergraduate tuition. Coursework in
+                  Artificial Intelligence, Machine Learning, Operations Research, Numerical Methods, Probability
+                  &amp; Statistics and Linear Algebra.
                 </p>
               </td>
+            </tr>
+
+          </tbody></table>
+
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+              <td style="padding:0px"><br></td>
             </tr>
           </tbody></table>
 

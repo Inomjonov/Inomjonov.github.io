@@ -91,6 +91,11 @@ code {
   font-size: 13px;
 }
 
+.date {
+  color: #767676;
+  font-size: 13px;
+}
+
 .papertitle {
   font-family: 'Lato', Verdana, Helvetica, sans-serif;
   font-size: 14px;
