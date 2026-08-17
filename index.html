@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Mironshoh Inomjonov</title>
-<meta name="description" content="ML engineer working on NLP and machine translation for Uzbek and Turkic languages. Tashkent, Uzbekistan.">
+<meta name="description" content="ML engineer at Tilmoch.ai working on NLP and machine translation for Uzbek and Turkic languages. Tashkent, Uzbekistan.">
 <meta name="author" content="Mironshoh Inomjonov">
 
-<meta property="og:type" content="website">
+<meta property="og:type" content="profile">
 <meta property="og:title" content="Mironshoh Inomjonov">
 <meta property="og:description" content="ML engineer working on NLP and machine translation for Uzbek and Turkic languages.">
 <meta property="og:url" content="https://inomjonov.github.io/">
@@ -21,43 +21,87 @@
 
   <header class="intro">
     <h1>Mironshoh Inomjonov</h1>
-    <p class="role">ML Engineer at <a href="https://tahrirchi.uz">Tahrirchi</a></p>
+    <p class="role">ML Engineer at <a href="https://tilmoch.ai">Tilmoch.ai</a></p>
     <p class="location">Tashkent, Uzbekistan</p>
   </header>
 
   <section class="about">
     <p>
-      I work on natural language processing and machine translation for Uzbek
-      and other Turkic languages &mdash; languages that mainstream models handle
-      poorly because there is so little data for them. Most of my time goes to
-      training and evaluating translation models, and to the data work that
-      makes them possible.
+      I do research and engineering on natural language processing and machine
+      translation, mostly for Uzbek and other Turkic languages &mdash; languages
+      that mainstream models handle poorly because so little data exists for
+      them. My work runs from building translation datasets to training and
+      evaluating the models on top of them. I also work in computer vision.
     </p>
     <p>
-      Outside of that I build small things from scratch to understand them
-      properly: autodiff engines, CUDA kernels, paper reimplementations.
+      Outside of that I build things from scratch to understand them properly:
+      autodiff engines, CUDA kernels, paper reimplementations.
     </p>
   </section>
 
   <section>
-    <h2>Work</h2>
+    <h2>Roles</h2>
 
     <article class="entry">
       <div class="entry-head">
-        <h3><a href="https://tilmoch.ai">Tilmoch</a></h3>
-        <span class="meta">Tahrirchi</span>
+        <h3><a href="https://tilmoch.ai">Tilmoch.ai</a></h3>
+        <span class="meta">ML Engineer</span>
       </div>
       <p>
-        A translation engine built for Central Asia, supporting Uzbek, Kazakh,
-        Karakalpak and Turkish. It reaches noticeably higher accuracy on these
-        languages than general-purpose translation services, and now serves
-        130,000+ users and 50+ corporate clients.
+        Research and engineering on NLP and machine translation. Tilmoch is a
+        translation engine built for Central Asia, covering Uzbek, Kazakh,
+        Karakalpak and Turkish, and reaching noticeably better accuracy on
+        these languages than general-purpose translation services.
       </p>
       <ul class="tags">
         <li>Machine translation</li>
         <li>LLMs</li>
         <li>Low-resource NLP</li>
       </ul>
+    </article>
+
+    <article class="entry">
+      <div class="entry-head">
+        <h3><a href="https://tahrirchi.uz">Tahrirchi</a></h3>
+        <span class="meta">ML</span>
+      </div>
+      <p>
+        NLP research and development for Uzbek and other Turkic languages,
+        spanning grammatical error correction and machine translation. Tilmoch
+        grew out of this work.
+      </p>
+      <ul class="tags">
+        <li>Turkic NLP</li>
+        <li>Grammatical error correction</li>
+      </ul>
+    </article>
+  </section>
+
+  <section>
+    <h2>Research</h2>
+
+    <article class="entry">
+      <div class="entry-head">
+        <h3><a href="https://aclanthology.org/2025.wmt-1.83/">Filling the Gap for Uzbek: Creating Translation Resources for Southern Uzbek</a></h3>
+        <span class="meta">WMT 2025</span>
+      </div>
+      <p class="authors">
+        Mukhammadsaid Mamasaidov, Azizullah Aral, Abror Shopulatov,
+        <strong>Mironshoh Inomjonov</strong>
+      </p>
+      <p>
+        Southern Uzbek has roughly 5 million speakers in Afghanistan and differs
+        sharply from Northern Uzbek in phonology, lexicon and orthography, yet is
+        almost absent from computational linguistics. We released a 997-sentence
+        evaluation set, nearly 40,000 parallel sentence pairs drawn from
+        dictionaries, literature and the web, a translation model, and a
+        post-processing method for Arabic-script word boundaries. Everything is
+        openly available.
+      </p>
+      <p class="pub-links">
+        <a href="https://aclanthology.org/2025.wmt-1.83/">ACL Anthology</a>
+        <a href="https://arxiv.org/abs/2508.14586">arXiv</a>
+      </p>
     </article>
   </section>
 
@@ -72,9 +116,9 @@
       <p>
         An automatic differentiation library in the spirit of
         <a href="https://github.com/karpathy/micrograd">micrograd</a>, extended
-        from scalars to vector operations. Includes <code>Neuron</code>,
-        <code>Layer</code> and <code>MLP</code> primitives with ReLU and tanh,
-        so you can build and train a network end to end on top of it.
+        from scalars to vector operations. Ships <code>Neuron</code>,
+        <code>Layer</code> and <code>MLP</code> primitives with ReLU and tanh, so
+        you can build and train a network end to end on top of it.
       </p>
       <ul class="tags">
         <li>Autodiff</li>
@@ -85,10 +129,24 @@
   </section>
 
   <section>
+    <h2>Tools</h2>
+    <ul class="tags tags-wide">
+      <li>Python</li>
+      <li>PyTorch</li>
+      <li>scikit-learn</li>
+      <li>NLP</li>
+      <li>Computer vision</li>
+      <li>CUDA</li>
+      <li>FastAPI</li>
+      <li>Streamlit</li>
+    </ul>
+  </section>
+
+  <section>
     <h2>Elsewhere</h2>
     <ul class="links">
       <li><a href="https://github.com/Inomjonov">GitHub</a></li>
-      <li><a href="https://www.linkedin.com/in/YOUR-HANDLE">LinkedIn</a></li>
+      <li><a href="https://www.linkedin.com/in/mironshoh-inomjonov/">LinkedIn</a></li>
     </ul>
   </section>
 

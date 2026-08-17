@@ -152,6 +152,27 @@ h2 {
   color: var(--text-mute);
 }
 
+/* ---- publications --------------------------------------------------- */
+
+.authors {
+  font-size: .88rem;
+  color: var(--text-mute);
+  margin-bottom: .6rem;
+}
+
+.authors strong {
+  font-weight: 600;
+  color: var(--text-soft);
+}
+
+.pub-links {
+  display: flex;
+  gap: 1.1rem;
+  font-family: var(--mono);
+  font-size: .78rem;
+  margin-bottom: 0;
+}
+
 /* ---- tags ----------------------------------------------------------- */
 
 .tags {
@@ -170,6 +191,16 @@ h2 {
   border: 1px solid var(--line);
   border-radius: 100px;
   padding: .15rem .6rem;
+}
+
+.tags-wide {
+  gap: .5rem;
+}
+
+.tags-wide li {
+  font-size: .82rem;
+  color: var(--text-soft);
+  padding: .25rem .75rem;
 }
 
 /* ---- links ---------------------------------------------------------- */
