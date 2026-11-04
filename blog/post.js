@@ -9,7 +9,17 @@ export function safeURL(value, image = false) {
   } catch { return ''; }
 }
 
-export function renderPost(post) {
+export function postBlocks(post) {
+  if (Array.isArray(post.blocks)) return post.blocks;
+  // Keep posts and drafts from the original editor editable.
+  const blocks = [];
+  if (post.text) blocks.push({ type: 'text', text: post.text });
+  if (post.image) blocks.push({ type: 'image', image: post.image, imageAlt: post.imageAlt || '' });
+  if (post.link) blocks.push({ type: 'link', link: post.link, linkLabel: post.linkLabel || '' });
+  return blocks;
+}
+
+export function renderPost(post, previewImages = new Map()) {
   const article = document.createElement('article');
   article.className = 'post';
   article.id = `post-${post.id}`;
@@ -19,33 +29,40 @@ export function renderPost(post) {
   const title = document.createElement('h2');
   title.textContent = post.title;
   article.append(date, title);
-  for (const paragraph of (post.text || '').split(/\n\s*\n/)) {
-    const p = document.createElement('p');
-    p.textContent = paragraph;
-    article.append(p);
-  }
-  const imageURL = safeURL(post.image, true);
-  if (imageURL) {
-    const figure = document.createElement('figure');
-    const img = document.createElement('img');
-    img.src = imageURL;
-    img.alt = post.imageAlt || '';
-    img.loading = 'lazy';
-    figure.append(img);
-    if (post.imageAlt) {
-      const caption = document.createElement('figcaption');
-      caption.textContent = post.imageAlt;
-      figure.append(caption);
+  for (const block of postBlocks(post)) {
+    if (block.type === 'text') {
+      for (const paragraph of (block.text || '').split(/\n\s*\n/)) {
+        const p = document.createElement('p');
+        p.textContent = paragraph;
+        article.append(p);
+      }
+    } else if (block.type === 'image') {
+      // Blob URLs are supplied only by the editor for locally selected files.
+      const imageURL = previewImages.get(block.id) || safeURL(block.image, true);
+      if (!imageURL) continue;
+      const figure = document.createElement('figure');
+      const img = document.createElement('img');
+      img.src = imageURL;
+      img.alt = block.imageAlt || '';
+      img.loading = 'lazy';
+      figure.append(img);
+      if (block.imageAlt) {
+        const caption = document.createElement('figcaption');
+        caption.textContent = block.imageAlt;
+        figure.append(caption);
+      }
+      article.append(figure);
+    } else if (block.type === 'link') {
+      const linkURL = safeURL(block.link);
+      if (!linkURL) continue;
+      const p = document.createElement('p');
+      const a = document.createElement('a');
+      a.href = linkURL;
+      a.textContent = block.linkLabel || block.link;
+      a.rel = 'noopener noreferrer';
+      p.append(a);
+      article.append(p);
     }
-    article.append(figure);
-  }
-  const linkURL = safeURL(post.link);
-  if (linkURL) {
-    const a = document.createElement('a');
-    a.href = linkURL;
-    a.textContent = post.linkLabel || post.link;
-    a.rel = 'noopener noreferrer';
-    article.append(a);
   }
   return article;
 }

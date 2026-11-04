@@ -32,13 +32,9 @@
         <h2 id="editor-heading">New post</h2>
         <form id="editor">
           <label for="title">Title</label><input id="title" required maxlength="180">
-          <label for="text">Text</label><textarea id="text" rows="12" required placeholder="Write your post. Separate paragraphs with a blank line."></textarea>
-          <label for="image">Image URL (optional)</label><input id="image" type="text" inputmode="url" placeholder="https://…">
-          <label for="upload">Or upload an image (JPEG, PNG, WebP, GIF; up to 5 MB)</label><input id="upload" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
-          <p id="upload-note" class="muted"></p>
-          <label for="imageAlt">Image description / caption</label><input id="imageAlt" maxlength="500">
-          <label for="link">Link (optional)</label><input id="link" type="url" placeholder="https://…">
-          <label for="linkLabel">Link text</label><input id="linkLabel" maxlength="180" placeholder="Read more">
+          <p class="muted">Add text, images, and links in any order. Split text into separate blocks to place an image between paragraphs. Use ↑ and ↓ to reorder.</p>
+          <div id="blocks"></div>
+          <div class="actions" aria-label="Add content"><button id="add-text" type="button">+ Text</button><button id="add-image" type="button">+ Image</button><button id="add-link" type="button">+ Link</button></div>
           <p class="muted">Draft text is saved in this browser. Publishing commits to GitHub; the live site updates after GitHub Pages deploys.</p>
           <div class="actions"><button type="submit" class="primary">Publish post</button><button id="preview-button" type="button">Preview</button><button id="new-post" type="button">Clear / new post</button></div>
         </form>

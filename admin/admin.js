@@ -1,10 +1,12 @@
-import { renderPost, safeURL } from '../blog/post.js';
+import { renderPost, safeURL, postBlocks } from '../blog/post.js';
 
 const REPO = 'Inomjonov/Inomjonov.github.io';
 const BRANCH = 'main';
 const PATH = 'data/posts.json';
 const DRAFT = 'inomjonov-blog-draft-v1';
-const fields = ['title', 'text', 'image', 'imageAlt', 'link', 'linkLabel'];
+let blocks = [];
+const files = new Map();
+let previewURLs = [];
 const $ = id => document.getElementById(id);
 let token = '', posts = [], sha = '', editing = null, busy = false;
 
@@ -58,7 +60,7 @@ async function savePosts(next, message) {
 }
 
 function draft() {
-  return { ...Object.fromEntries(fields.map(field => [field, $(field).value.trim()])), id: editing };
+  return { title: $('title').value.trim(), blocks: blocks.map(block => ({ ...block })), id: editing };
 }
 
 function saveDraft() {
@@ -66,26 +68,145 @@ function saveDraft() {
   catch { status('Browser storage is unavailable. Keep this tab open to preserve your draft.', true); }
 }
 
+function setBlocks(post) {
+  files.clear();
+  blocks = postBlocks(post).map(block => ({ ...block, id: block.id || crypto.randomUUID() }));
+  if (!blocks.length) blocks.push({ type: 'text', text: '', id: crypto.randomUUID() });
+  renderBlocks();
+}
+
 function restoreDraft() {
   try {
     const saved = JSON.parse(localStorage.getItem(DRAFT) || 'null');
     if (saved) {
-      for (const field of fields) $(field).value = saved[field] || '';
+      $('title').value = saved.title || '';
       editing = saved.id || null;
+      setBlocks(saved);
       $('editor-heading').textContent = editing ? 'Edit post' : 'New post';
+      return;
     }
   } catch { /* An invalid draft must not prevent signing in. */ }
+  setBlocks({});
+}
+
+function clearPreview() {
+  previewURLs.forEach(url => URL.revokeObjectURL(url));
+  previewURLs = [];
+  $('preview').replaceChildren();
+  $('preview-panel').hidden = true;
 }
 
 function reset(clearDraft = true) {
-  $('editor').reset();
+  $('title').value = '';
   editing = null;
   $('editor-heading').textContent = 'New post';
-  $('preview-panel').hidden = true;
-  $('upload-note').textContent = '';
+  clearPreview();
+  setBlocks({});
   if (clearDraft) {
     try { localStorage.removeItem(DRAFT); } catch { /* Storage may be disabled. */ }
   }
+}
+
+function hasDraft() {
+  return $('title').value || files.size || blocks.some(block => block.text || block.image || block.link || block.imageAlt || block.linkLabel);
+}
+
+function renderBlocks() {
+  $('blocks').replaceChildren();
+  blocks.forEach((block, index) => {
+    const section = document.createElement('section');
+    section.className = 'content-block';
+    const heading = document.createElement('h3');
+    heading.textContent = `${index + 1}. ${block.type[0].toUpperCase() + block.type.slice(1)}`;
+    section.append(heading);
+    function input(key, labelText, multiline = false) {
+      const id = `block-${block.id}-${key}`;
+      const label = document.createElement('label');
+      label.htmlFor = id;
+      label.textContent = labelText;
+      const control = document.createElement(multiline ? 'textarea' : 'input');
+      control.id = id;
+      control.value = block[key] || '';
+      if (multiline) control.rows = 6;
+      control.addEventListener('input', () => { block[key] = control.value; });
+      section.append(label, control);
+    }
+    if (block.type === 'text') input('text', 'Text', true);
+    if (block.type === 'image') {
+      input('image', 'Image URL (HTTPS), or upload below');
+      const label = document.createElement('label');
+      const upload = document.createElement('input');
+      upload.type = 'file';
+      upload.id = `block-${block.id}-upload`;
+      upload.accept = 'image/jpeg,image/png,image/webp,image/gif';
+      label.htmlFor = upload.id;
+      label.textContent = 'Upload image (up to 5 MB)';
+      const note = document.createElement('p');
+      note.className = 'muted';
+      const file = files.get(block.id);
+      note.textContent = file ? `${file.name} selected. Select it again after refreshing.` : 'JPEG, PNG, WebP, or GIF. Uploaded when you publish.';
+      upload.addEventListener('change', () => {
+        const selected = upload.files[0];
+        if (selected && !validImage(selected)) {
+          upload.value = '';
+          files.delete(block.id);
+          note.textContent = 'No file selected.';
+          status('Choose a JPEG, PNG, WebP, or GIF image up to 5 MB.', true);
+          return;
+        }
+        if (selected) files.set(block.id, selected);
+        else files.delete(block.id);
+        note.textContent = selected ? `${selected.name} selected. Select it again after refreshing.` : 'No file selected.';
+      });
+      section.append(label, upload, note);
+      input('imageAlt', 'Image description / caption');
+    }
+    if (block.type === 'link') {
+      input('link', 'Link URL (HTTP or HTTPS)');
+      input('linkLabel', 'Link text');
+    }
+    const actions = document.createElement('div');
+    actions.className = 'actions block-actions';
+    for (const [text, name, action] of [
+      ['↑', 'Move block up', () => moveBlock(index, -1)],
+      ['↓', 'Move block down', () => moveBlock(index, 1)],
+      ['Remove', 'Remove block', () => {
+        if (!confirm('Remove this content block?')) return;
+        files.delete(block.id);
+        blocks.splice(index, 1);
+        renderBlocks();
+        saveDraft();
+      }],
+    ]) {
+      const button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = text;
+      button.setAttribute('aria-label', name);
+      if ((text === '↑' && index === 0) || (text === '↓' && index === blocks.length - 1)) button.dataset.boundary = 'true';
+      button.disabled = busy || button.dataset.boundary === 'true';
+      button.addEventListener('click', action);
+      actions.append(button);
+    }
+    section.append(actions);
+    $('blocks').append(section);
+  });
+}
+
+function moveBlock(index, direction) {
+  const target = index + direction;
+  if (target < 0 || target >= blocks.length) return;
+  [blocks[index], blocks[target]] = [blocks[target], blocks[index]];
+  renderBlocks();
+  saveDraft();
+}
+
+for (const type of ['text', 'image', 'link']) {
+  $(`add-${type}`).addEventListener('click', () => {
+    blocks.push({ type, id: crypto.randomUUID() });
+    renderBlocks();
+    saveDraft();
+    $('blocks').lastElementChild.querySelector('input, textarea')?.focus();
+  });
 }
 
 async function run(action) {
@@ -96,7 +217,7 @@ async function run(action) {
   catch (error) { status(error.message || 'Something went wrong. Please try again.', true); }
   finally {
     busy = false;
-    document.querySelectorAll('button, input, textarea').forEach(control => { control.disabled = false; });
+    document.querySelectorAll('button, input, textarea').forEach(control => { control.disabled = control.dataset.boundary === 'true'; });
   }
 }
 
@@ -134,30 +255,22 @@ $('logout').addEventListener('click', () => {
 });
 
 $('editor').addEventListener('input', saveDraft);
-$('upload').addEventListener('change', () => {
-  const file = $('upload').files[0];
-  $('upload-note').textContent = file ? `${file.name} selected. Upload happens when you publish. Select it again if you refresh.` : '';
-});
 $('new-post').addEventListener('click', () => {
-  if ((fields.some(field => $(field).value) || $('upload').files.length) && !confirm('Discard this draft and start a new post?')) return;
+  if (hasDraft() && !confirm('Discard this draft and start a new post?')) return;
   reset();
   status('New post.');
 });
 
 $('preview-button').addEventListener('click', () => {
-  const post = { ...draft(), createdAt: posts.find(p => p.id === editing)?.createdAt || new Date().toISOString() };
-  const article = renderPost(post);
-  const file = $('upload').files[0];
-  if (file && validImage(file)) {
-    const image = document.createElement('img');
+  clearPreview();
+  const images = new Map();
+  for (const [id, file] of files) {
     const url = URL.createObjectURL(file);
-    image.src = url;
-    image.alt = post.imageAlt;
-    image.onload = image.onerror = () => URL.revokeObjectURL(url);
-    article.querySelector('figure')?.remove();
-    article.append(image);
+    previewURLs.push(url);
+    images.set(id, url);
   }
-  $('preview').replaceChildren(article);
+  const post = { ...draft(), createdAt: posts.find(p => p.id === editing)?.createdAt || new Date().toISOString() };
+  $('preview').replaceChildren(renderPost(post, images));
   $('preview-panel').hidden = false;
 });
 
@@ -186,20 +299,28 @@ $('editor').addEventListener('submit', event => {
   run(async () => {
     saveDraft();
     const value = draft();
-    if (!value.title || !value.text) throw new Error('Add a title and some text before publishing.');
-    if (value.link && !safeURL(value.link)) throw new Error('Use an HTTP or HTTPS link.');
-    if (value.image && !safeURL(value.image, true)) throw new Error('Use an HTTPS image URL.');
-    const file = $('upload').files[0];
-    if (file && !validImage(file)) throw new Error('Choose a JPEG, PNG, WebP, or GIF image up to 5 MB.');
-    if ((file || value.image) && !value.imageAlt) throw new Error('Add an image description so the image is accessible.');
+    if (!value.title || !value.blocks.length) throw new Error('Add a title and at least one content block.');
+    for (const block of value.blocks) {
+      if (block.type === 'text' && !block.text?.trim()) throw new Error('Write something in each text block, or remove empty blocks.');
+      if (block.type === 'link' && (!block.link?.trim() || !safeURL(block.link))) throw new Error('Add an HTTP or HTTPS URL to each link block.');
+      if (block.type === 'image') {
+        const file = files.get(block.id);
+        if (!file && (!block.image || !safeURL(block.image, true))) throw new Error('Add an HTTPS URL or upload to each image block.');
+        if (file && !validImage(file)) throw new Error('Choose a JPEG, PNG, WebP, or GIF image up to 5 MB.');
+        if (!block.imageAlt?.trim()) throw new Error('Add a description to each image block.');
+      }
+    }
     status('Publishing… Keep this tab open.');
     if (editing && !posts.some(p => p.id === editing)) throw new Error('This post no longer exists. Use Clear / new post to start again.');
-    if (file) {
-      value.image = await uploadImage(file);
-      // Keep the completed upload in the draft so a failed post commit can be retried.
-      $('image').value = value.image;
-      $('upload').value = '';
-      $('upload-note').textContent = 'Image uploaded.';
+    for (const block of value.blocks) {
+      const file = files.get(block.id);
+      if (!file) continue;
+      block.image = await uploadImage(file);
+      // Preserve each successful upload if a later upload or post commit fails.
+      blocks.find(item => item.id === block.id).image = block.image;
+      files.delete(block.id);
+      renderBlocks();
+      document.querySelectorAll('button, input, textarea').forEach(control => { control.disabled = true; });
       saveDraft();
     }
     const existing = posts.find(post => post.id === editing);
@@ -224,10 +345,11 @@ function listPosts() {
     const edit = document.createElement('button');
     edit.textContent = 'Edit';
     edit.addEventListener('click', () => {
-      if (fields.some(field => $(field).value) && !confirm('Replace your current draft with this post?')) return;
+      if (hasDraft() && !confirm('Replace your current draft with this post?')) return;
       reset();
       editing = post.id;
-      for (const field of fields) $(field).value = post[field] || '';
+      $('title').value = post.title || '';
+      setBlocks(post);
       $('editor-heading').textContent = 'Edit post';
       saveDraft();
       $('title').focus();

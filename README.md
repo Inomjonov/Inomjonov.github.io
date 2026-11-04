@@ -19,9 +19,13 @@ refreshing or signing out requires signing in again. Never commit a token.
 GitHub enforces access; there is no password or secret embedded in the site.
 Branch protection rules must allow your account to commit directly to `main`.
 
-Write a title and text, optionally add an image URL or upload (JPEG, PNG, WebP,
-GIF up to 5 MB), an image description, and a link with a label. Preview before
-publishing. Posts can also be edited or deleted from the admin page.
+Write a title, then use **+ Text**, **+ Image**, and **+ Link** to build your post
+in any order. For text → image → text, add those three blocks. Add as many images
+as you need, using HTTPS URLs or uploads (JPEG, PNG, WebP, GIF up to 5 MB each),
+and give each image a description. Use the arrow buttons to reorder blocks or
+Remove to discard one. Preview shows the same order readers will see. Existing
+posts and drafts from the original editor automatically open as ordered blocks.
+Posts can also be edited or deleted from the admin page.
 Draft text is saved in this browser's local storage; selected image files must
 be selected again after a refresh. Local drafts are not private on shared devices.
 
