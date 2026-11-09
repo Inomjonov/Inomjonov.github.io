@@ -4,6 +4,21 @@
     "blocks": [
       {
         "type": "text",
+        "text": "Started research internship at Nazarbaev University [ISSAI]. \nResponsibilities: Research and Development on Speech chatbots.",
+        "id": "eb90742d-f785-4b67-8531-5cc2272e0c9b"
+      }
+    ],
+    "id": "93ae768a-87be-4106-a057-2e0196a36f03",
+    "kind": "update",
+    "date": "2025-08-01",
+    "createdAt": "2026-11-09T22:06:43.259Z",
+    "updatedAt": "2026-11-09T22:06:43.259Z"
+  },
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
         "text": "Joined Tilmoch.ai as research engineer. \nResponsibilities: NLP research, developing tools for uzbek language.",
         "id": "bf236752-abb0-41ca-8792-19e8243afb59"
       }
