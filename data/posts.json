@@ -4,6 +4,21 @@
     "blocks": [
       {
         "type": "text",
+        "text": "Joined Tilmoch.ai as research engineer. \nResponsibilities: NLP research, developing tools for uzbek language.",
+        "id": "bf236752-abb0-41ca-8792-19e8243afb59"
+      }
+    ],
+    "id": "33f5ce6c-7441-44c3-8b98-588c7879bea8",
+    "kind": "update",
+    "date": "2025-04-18",
+    "createdAt": "2026-11-09T22:05:20.673Z",
+    "updatedAt": "2026-11-09T22:05:20.673Z"
+  },
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
         "text": "Started new position as AI engineer at Vention. I will work on real time Computer Vision. ViT, CNN, MobileNet, YOLO and more.",
         "id": "0f6c88d5-f9a7-4133-91d9-d12ad935f0c7"
       }
