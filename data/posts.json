@@ -4,6 +4,21 @@
     "blocks": [
       {
         "type": "text",
+        "text": "Joined KPI COM as ML engineer. I will be working on developing chatbots using RAG.",
+        "id": "1057becb-ab37-4b7f-93d2-61560e8256af"
+      }
+    ],
+    "id": "389a55de-7781-4494-977d-07e1ad172b72",
+    "kind": "update",
+    "date": "2023-07-01",
+    "createdAt": "2026-11-09T22:01:50.457Z",
+    "updatedAt": "2026-11-09T22:01:50.458Z"
+  },
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
         "text": "Started at  Sungkyunkwan University as combined MSc/PhD student.\nJoined InfoLab [https://infolab-skku.github.io/] under supervision of Prof. Tamer Abuhmed.\nWorking on VLMs.",
         "id": "b672a7d4-b760-4017-8d36-35133f9e9b07"
       }
