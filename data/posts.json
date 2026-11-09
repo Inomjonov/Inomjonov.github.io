@@ -4,6 +4,21 @@
     "blocks": [
       {
         "type": "text",
+        "text": "Came to Suzhou (China) to present our paper with tilmoch.ai team at EMNLP.\nLink to paper: https://aclanthology.org/2025.wmt-1.83/",
+        "id": "bb685c7c-9a12-4fdc-a11b-e0d8ba093362"
+      }
+    ],
+    "id": "f23f7580-d602-4ec5-bc97-0ef688c059fa",
+    "kind": "update",
+    "date": "2025-11-05",
+    "createdAt": "2026-11-09T22:23:13.155Z",
+    "updatedAt": "2026-11-09T22:23:13.155Z"
+  },
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
         "text": "Started new position as Data Scientist at reformat.uz. My first workplace.\nResponsibilites: automating manual excel pipelines.",
         "id": "96484335-c592-479a-b3b7-7c1c03849481"
       }
