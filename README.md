@@ -12,14 +12,36 @@ automatically in about a minute.
 - A single post: `/blog/post.html?id=<post id>`
 - Editor: `/admin/`
 
-The blog's look follows [ljvmiranda921.github.io](https://ljvmiranda921.github.io):
-a serif reading column (Vollkorn, with Vollkorn SC for figure labels and Inter
-for titles), a drop cap on the opening paragraph, auto-numbered `Figure N.`
-captions, and a `date • author | N min read (M words)` meta line. It is
-translated to this site's dark palette so the blog matches the homepage.
-`blog.css` is self-contained and deliberately does *not* load `stylesheet.css`,
-whose 14px Lato table styles would override the reading column. Fonts come from
-Google Fonts, so the serif falls back to Georgia offline.
+The whole site follows [ljvmiranda921.github.io](https://ljvmiranda921.github.io):
+`#fffff8` paper, `#111` text, `#a00000` links, a Vollkorn serif reading column
+with Vollkorn SC small-caps headings, a drop cap on the opening paragraph,
+auto-numbered `Figure N.` captions, and a `date • author | N min read (M words)`
+meta line. Inter is reserved for a single post's title. `blog.css` is
+self-contained and deliberately does *not* load `stylesheet.css`. Fonts come
+from Google Fonts, so the serif falls back to Georgia offline.
+
+## Posts and updates
+
+Each entry in `data/posts.json` carries a `kind`:
+
+- `post` — a longread. Listed at `/blog/`, and in **Recent posts** on the
+  homepage. Needs a title.
+- `update` — a short dated note. Shown under **What's new?** on the homepage
+  and archived at `/blog/#updates`. No title, text only.
+
+An entry without `kind` reads as a post, so older content is unaffected.
+
+Both kinds take an optional `date` (`yyyy-mm-dd`) for **when the thing
+happened**, which is not the same as when you published it. Display and
+ordering everywhere use `date` when present and the publish time otherwise,
+newest first — so an update written months late still files under the right
+month. The date defaults to today in the editor. A bare `yyyy-mm-dd` is parsed
+as a local date on purpose: parsing it as UTC renders the previous day for
+anyone behind UTC.
+
+Inside any text block, `[label](https://example.com)` becomes a link. Links are
+built as DOM nodes rather than HTML, so an unsafe URL is left as literal text,
+and excerpts collapse the markup to its label.
 
 Deploy these files to `main` before using the editor. To sign in, create a
 [fine-grained GitHub token](https://github.com/settings/personal-access-tokens/new)
@@ -29,8 +51,9 @@ refreshing or signing out requires signing in again. Never commit a token.
 GitHub enforces access; there is no password or secret embedded in the site.
 Branch protection rules must allow your account to commit directly to `main`.
 
-Write a title, then use **+ Text**, **+ Image**, and **+ Link** to build your post
-in any order. For text → image → text, add those three blocks. Add as many images
+Pick a **Type**, set the date, then write. For a long post, add a title and use
+**+ Text**, **+ Image**, and **+ Link** to build it in any order; an update hides
+the title and the image/link buttons, because it holds text only. For text → image → text, add those three blocks. Add as many images
 as you need, using HTTPS URLs or uploads (JPEG, PNG, WebP, GIF up to 5 MB each),
 and give each image a description. Use the arrow buttons to reorder blocks or
 Remove to discard one. Preview shows the same order readers will see. Existing

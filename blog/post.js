@@ -52,21 +52,37 @@ export function postURL(post, base = '') {
   return `${base}post.html?id=${encodeURIComponent(post.id)}`;
 }
 
+// A plain yyyy-mm-dd is parsed as UTC midnight, which renders as the day
+// before in any timezone behind UTC. Build it as a local date instead.
+function toDate(value) {
+  if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [year, month, day] = value.split('-').map(Number);
+    return new Date(year, month - 1, day);
+  }
+  return new Date(value);
+}
+
+// When the entry happened, which may be long before it was published.
+export function entryDate(post) {
+  return post.date || post.createdAt;
+}
+
 export function formatDate(value) {
-  const date = new Date(value);
+  const date = toDate(value);
   if (Number.isNaN(date.valueOf())) return '';
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
 // "Aug 2026", the label an update is filed under.
 export function formatMonth(value) {
-  const date = new Date(value);
+  const date = toDate(value);
   if (Number.isNaN(date.valueOf())) return '';
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 }
 
+// Newest first, by when it happened rather than when it was published.
 export function byNewest(a, b) {
-  return new Date(b.createdAt) - new Date(a.createdAt);
+  return toDate(entryDate(b)) - toDate(entryDate(a));
 }
 
 // "Aug 3, 2026 • MIRONSHOH INOMJONOV | 13 min read (2326 words)"
@@ -74,8 +90,8 @@ export function renderMeta(post) {
   const meta = document.createElement('p');
   meta.className = 'post-meta';
   const time = document.createElement('time');
-  time.dateTime = post.createdAt || '';
-  time.textContent = formatDate(post.createdAt);
+  time.dateTime = entryDate(post) || '';
+  time.textContent = formatDate(entryDate(post));
   const author = document.createElement('span');
   author.className = 'author';
   author.textContent = AUTHOR;
@@ -209,7 +225,7 @@ export function renderUpdate(post) {
   const date = document.createElement('span');
   date.className = 'date';
   const strong = document.createElement('strong');
-  strong.textContent = formatMonth(post.createdAt);
+  strong.textContent = formatMonth(entryDate(post));
   date.append(strong);
   p.append(date, ': ');
   appendInline(p, bodyText(post).replace(/\s+/g, ' ').trim());
@@ -222,7 +238,7 @@ export function renderHomeEntry(post, base = '') {
   const item = document.createElement('li');
   const meta = document.createElement('span');
   meta.className = 'entry-date';
-  meta.textContent = formatDate(post.createdAt);
+  meta.textContent = formatDate(entryDate(post));
   const heading = document.createElement('h3');
   const link = document.createElement('a');
   link.href = postURL(post, base);

@@ -1,4 +1,4 @@
-import { renderPost, renderUpdate, safeURL, postBlocks, postKind, formatMonth } from '../blog/post.js';
+import { renderPost, renderUpdate, safeURL, postBlocks, postKind, formatMonth, entryDate, byNewest } from '../blog/post.js';
 
 const REPO = 'Inomjonov/Inomjonov.github.io';
 const BRANCH = 'main';
@@ -69,8 +69,22 @@ async function savePosts(next, message) {
   listPosts();
 }
 
+// yyyy-mm-dd in local time, which is what <input type="date"> expects.
+function isoDay(value = new Date()) {
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) return isoDay(new Date());
+  const pad = part => String(part).padStart(2, '0');
+  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`;
+}
+
 function draft() {
-  return { title: $('title').value.trim(), blocks: blocks.map(block => ({ ...block })), id: editing, kind };
+  return {
+    title: $('title').value.trim(),
+    blocks: blocks.map(block => ({ ...block })),
+    id: editing,
+    kind,
+    date: $('entry-date').value,
+  };
 }
 
 // Updates carry no title and only text, so the unused controls are hidden.
@@ -112,6 +126,7 @@ function restoreDraft() {
     const saved = JSON.parse(localStorage.getItem(DRAFT) || 'null');
     if (saved) {
       $('title').value = saved.title || '';
+      $('entry-date').value = saved.date || isoDay();
       editing = saved.id || null;
       setKind(saved.kind);
       setBlocks(saved);
@@ -132,6 +147,7 @@ function clearPreview() {
 
 function reset(clearDraft = true) {
   $('title').value = '';
+  $('entry-date').value = isoDay();
   editing = null;
   $('editor-heading').textContent = 'New post';
   clearPreview();
@@ -369,8 +385,9 @@ $('editor').addEventListener('submit', event => {
     }
     const existing = posts.find(post => post.id === editing);
     const post = { ...value, id: editing || crypto.randomUUID(), createdAt: existing?.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString() };
+    if (!post.date) delete post.date;
     const next = existing ? posts.map(item => item.id === editing ? post : item) : [post, ...posts];
-    const label = kind === 'update' ? `update: ${formatMonth(post.createdAt)}` : `blog post: ${post.title}`;
+    const label = kind === 'update' ? `update: ${formatMonth(entryDate(post))}` : `blog post: ${post.title}`;
     await savePosts(next, `${existing ? 'Update' : 'Publish'} ${label}`);
     reset();
     status(kind === 'update'
@@ -382,7 +399,7 @@ $('editor').addEventListener('submit', event => {
 function listPosts() {
   $('post-list').replaceChildren();
   if (!posts.length) { $('post-list').textContent = 'Nothing published yet.'; return; }
-  for (const post of [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))) {
+  for (const post of [...posts].sort(byNewest)) {
     const row = document.createElement('div');
     row.className = 'post-row';
     const title = document.createElement('span');
@@ -391,7 +408,7 @@ function listPosts() {
     tag.className = 'kind-tag';
     tag.textContent = entryKind === 'update' ? 'Update' : 'Post';
     title.append(tag, entryKind === 'update'
-      ? `${formatMonth(post.createdAt)} — ${(post.blocks?.find(b => b.type === 'text')?.text || '').slice(0, 60)}`
+      ? `${formatMonth(entryDate(post))} — ${(post.blocks?.find(b => b.type === 'text')?.text || '').slice(0, 60)}`
       : post.title);
     const actions = document.createElement('div');
     actions.className = 'actions';
@@ -403,6 +420,7 @@ function listPosts() {
       editing = post.id;
       setKind(postKind(post));
       $('title').value = post.title || '';
+      $('entry-date').value = isoDay(entryDate(post));
       setBlocks(post);
       $('editor-heading').textContent = entryKind === 'update' ? 'Edit update' : 'Edit post';
       saveDraft();
@@ -411,12 +429,12 @@ function listPosts() {
     const remove = document.createElement('button');
     remove.textContent = 'Delete';
     remove.addEventListener('click', () => {
-      const name = entryKind === 'update' ? `the ${formatMonth(post.createdAt)} update` : `“${post.title}”`;
+      const name = entryKind === 'update' ? `the ${formatMonth(entryDate(post))} update` : `“${post.title}”`;
       if (!confirm(`Delete ${name} from the public site?`)) return;
       run(async () => {
         status('Deleting…');
         await savePosts(posts.filter(item => item.id !== post.id),
-          `Delete ${entryKind === 'update' ? `update: ${formatMonth(post.createdAt)}` : `blog post: ${post.title}`}`);
+          `Delete ${entryKind === 'update' ? `update: ${formatMonth(entryDate(post))}` : `blog post: ${post.title}`}`);
         if (editing === post.id) reset();
         status('Post deleted. GitHub Pages will update shortly.');
       });
