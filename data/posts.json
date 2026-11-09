@@ -4,6 +4,21 @@
     "blocks": [
       {
         "type": "text",
+        "text": "Started new position as AI engineer at Vention. I will work on real time Computer Vision. ViT, CNN, MobileNet, YOLO and more.",
+        "id": "0f6c88d5-f9a7-4133-91d9-d12ad935f0c7"
+      }
+    ],
+    "id": "9e1881e6-1e89-459e-a257-7342186761ec",
+    "kind": "update",
+    "date": "2025-01-09",
+    "createdAt": "2026-11-09T22:03:27.478Z",
+    "updatedAt": "2026-11-09T22:03:27.478Z"
+  },
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
         "text": "Joined KPI COM as ML engineer. I will be working on developing chatbots using RAG.",
         "id": "1057becb-ab37-4b7f-93d2-61560e8256af"
       }
