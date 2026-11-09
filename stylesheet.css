@@ -117,47 +117,32 @@ span.highlight { background-color: var(--mark); }
 
   .name { font-size: 28px; }
 
-  td[style*="width:20%"] img { max-width: 160px; display: block; margin: 0 auto; }
-  td[style*="width:37%"] img { max-width: 200px; display: block; margin: 0 auto; }
+  /* !important: these images carry an inline max-width:100% that would win. */
+  td[style*="width:20%"] img { max-width: 160px !important; display: block; margin: 0 auto; }
+  td[style*="width:37%"] img { max-width: 200px !important; display: block; margin: 0 auto; }
 }
 
 /* ===== Recent posts and "What's new?" =====
-   Two columns under an ornamented rule, after ljvmiranda921.github.io. */
+   Two columns under a plain rule, after ljvmiranda921.github.io. */
 
-hr.ornament {
-  position: relative;
-  display: block;
-  height: 2rem;
-  margin: 8px 0 24px;
+hr.section-rule {
+  margin: 32px 0 26px;
   border: 0;
-  color: var(--heading);
-}
-
-hr.ornament::before {
-  content: "";
-  display: block;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 100%;
-  height: 0;
   border-top: 1px solid var(--heading);
 }
 
-hr.ornament::after {
-  content: "\2767";
-  display: inline-block;
-  position: absolute;
-  top: 0;
-  left: calc(50% - 1ch);
-  width: 2ch;
+.links {
+  margin: 4px 0 0;
   text-align: center;
-  font-size: 2rem;
-  line-height: 2rem;
-  background: var(--bg);
+  text-wrap: balance;
 }
 
+.links a { white-space: nowrap; }
+
 .home-sections { display: block; }
+
+/* Stacked on narrow screens, the second column needs separating. */
+.home-sections .column + .column { margin-top: 26px; }
 
 .home-heading {
   font-family: 'Vollkorn SC', Georgia, serif;
@@ -202,4 +187,5 @@ hr.ornament::after {
 @media screen and (min-width: 769px) {
   .home-sections { display: flex; gap: 30px; width: 100%; }
   .home-sections .column { flex: 1 1 0; min-width: 0; }
+  .home-sections .column + .column { margin-top: 0; }
 }
