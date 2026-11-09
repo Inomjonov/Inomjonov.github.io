@@ -5,17 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="Notes and blog posts by Mironshoh Inomjonov.">
   <title>Blog · Mironshoh Inomjonov</title>
-  <link rel="stylesheet" href="../stylesheet.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vollkorn:ital,wght@0,400..700;1,400..700&family=Vollkorn+SC:wght@400;600&family=Inter:wght@400..600&display=swap">
   <link rel="stylesheet" href="../blog.css">
 </head>
 <body>
-  <main class="blog-shell">
-    <nav class="blog-nav" aria-label="Main"><a href="../">← Mironshoh Inomjonov</a><a href="../admin/">Admin</a></nav>
-    <h1>Blog</h1>
-    <p class="muted">Notes, ideas, and things I’m working on.</p>
-    <div id="posts" aria-live="polite"><p>Loading posts…</p></div>
-    <noscript>Enable JavaScript to read blog posts.</noscript>
+  <header class="site-header">
+    <div class="wrapper">
+      <div class="site-identity">
+        <a href="../"><img src="../images/profile.jpg" alt="Mironshoh Inomjonov"
+             onerror="this.onerror=null;this.src=&#39;../images/profile.svg&#39;;"></a>
+        <div class="site-identity-text">
+          <a class="site-title" href="../">Mironshoh Inomjonov</a>
+          <p>Research Engineer at tilmoch.ai</p>
+          <p><a href="mailto:mironshohinomjon@gmail.com">mironshohinomjon@gmail.com</a></p>
+          <nav class="site-nav" aria-label="Main">
+            <a class="page-link" href="../">Home</a>
+            <a class="page-link" href="../data/CV.pdf">CV</a>
+            <a class="page-link" href="./" aria-current="page">Blog</a>
+            <a class="page-link" href="https://scholar.google.com/citations?user=DFRA2nUAAAAJ">Scholar</a>
+            <a class="page-link" href="https://github.com/Inomjonov">Github</a>
+            <a class="page-link" href="https://huggingface.co/Inomjonov">Huggingface</a>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </header>
+  <main class="page-content">
+    <div class="wrapper">
+      <h1 class="page-title">Blog</h1>
+      <p class="page-subtitle">Notes, ideas, and things I&rsquo;m working on.</p>
+      <div id="posts" class="post-list" aria-live="polite"><p class="muted">Loading posts&hellip;</p></div>
+      <noscript><p class="muted">Enable JavaScript to read blog posts.</p></noscript>
+    </div>
   </main>
+  <footer class="site-footer">
+    <div class="wrapper"><p class="footer-copyright">© 2026 Mironshoh Inomjonov</p></div>
+  </footer>
   <script type="module" src="blog.js"></script>
 </body>
 </html>

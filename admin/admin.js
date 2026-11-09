@@ -13,6 +13,8 @@ let token = '', posts = [], sha = '', editing = null, busy = false;
 function status(message, error = false) {
   $('status').textContent = message;
   $('status').classList.toggle('error', error);
+  // The status line sits above a long editor; an unseen error reads as "nothing happened".
+  if (error) $('status').scrollIntoView({ block: 'center', behavior: 'smooth' });
 }
 
 async function api(path, options = {}) {
@@ -23,10 +25,18 @@ async function api(path, options = {}) {
     cache: 'no-store',
   });
   if (!response.ok) {
-    if (response.status === 409 || response.status === 422) throw new Error('The repository changed or rejected the commit. Sign out and back in to reload posts; your draft is saved.');
-    if (response.status === 401) throw new Error('Your GitHub token is invalid or expired. Sign out and sign in with a valid token.');
-    if (response.status === 403) throw new Error('GitHub denied this request. Check Contents: Read and write permission, token expiration, and API rate limits.');
-    throw new Error(`GitHub request failed (${response.status}). Check repository access and branch rules, then try again.`);
+    // GitHub explains the real cause in the body; without it every failure looks the same.
+    let detail = '';
+    try {
+      const body = await response.json();
+      detail = [body.message, ...(body.errors || []).map(item => item.message || item.code)].filter(Boolean).join(' — ');
+    } catch { /* Error bodies are not always JSON. */ }
+    const said = detail ? ` GitHub said: ${detail}` : '';
+    if (response.status === 409 || response.status === 422) throw new Error(`The repository changed or rejected the commit. Sign out and back in to reload posts; your draft is saved.${said}`);
+    if (response.status === 401) throw new Error(`Your GitHub token is invalid or expired. Sign out and sign in with a valid token.${said}`);
+    if (response.status === 403) throw new Error(`GitHub denied this request (403). Check that the token grants Contents: Read and write on this repository, has not expired, and — for a fine-grained token on an organisation — has been approved.${said}`);
+    if (response.status === 404) throw new Error(`GitHub returned 404. A fine-grained token that cannot see this repository reports it as missing, so check the token's repository access.${said}`);
+    throw new Error(`GitHub request failed (${response.status}).${said}`);
   }
   return response.json();
 }
@@ -210,7 +220,7 @@ for (const type of ['text', 'image', 'link']) {
 }
 
 async function run(action) {
-  if (busy) return;
+  if (busy) { status('Still working on the previous action. Please wait.', true); return; }
   busy = true;
   document.querySelectorAll('button, input, textarea').forEach(control => { control.disabled = true; });
   try { await action(); }
