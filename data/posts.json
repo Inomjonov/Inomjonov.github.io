@@ -4,6 +4,21 @@
     "blocks": [
       {
         "type": "text",
+        "text": "Started new position as Data Scientist at reformat.uz. My first workplace.\nResponsibilites: automating manual excel pipelines.",
+        "id": "96484335-c592-479a-b3b7-7c1c03849481"
+      }
+    ],
+    "id": "bd2692c4-cfd8-4372-818b-a72d7f90369e",
+    "kind": "update",
+    "date": "2022-11-04",
+    "createdAt": "2026-11-09T22:08:19.158Z",
+    "updatedAt": "2026-11-09T22:08:19.158Z"
+  },
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
         "text": "Started research internship at Nazarbaev University [ISSAI]. \nResponsibilities: Research and Development on Speech chatbots.",
         "id": "eb90742d-f785-4b67-8531-5cc2272e0c9b"
       }
