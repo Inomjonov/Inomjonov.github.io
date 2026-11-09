@@ -1,0 +1,169 @@
+{
+  "name": "Mironshoh Inomjonov",
+  "photo": "images/profile.jpg",
+  "photoAlt": "Mironshoh Inomjonov",
+  "description": "Research Engineer at tilmoch.ai. Interested in NLP, multimodal and representation learning.",
+  "bio": [
+    "I'm a Research Engineer at [tilmoch.ai](https://tilmoch.ai/), where I work on NLP problems.",
+    "Before tilmoch.ai I worked on computer vision and speech at [Vention](https://ventionteams.com/), and on applied ML systems at [KPI.com](https://kpi.com/). I hold a BSc in Software Engineering from [New Uzbekistan University](https://newuu.uz/), on a Presidential scholarship.",
+    "This year I'm starting as an MSc/PhD student at [Sungkyunkwan University](https://www.skku.edu/eng/) (SKKU) in South Korea."
+  ],
+  "links": [
+    {
+      "label": "Email",
+      "url": "mailto:mironshohinomjon@gmail.com"
+    },
+    {
+      "label": "CV",
+      "url": "data/CV.pdf"
+    },
+    {
+      "label": "Blog",
+      "url": "blog/"
+    },
+    {
+      "label": "Scholar",
+      "url": "https://scholar.google.com/citations?user=DFRA2nUAAAAJ"
+    },
+    {
+      "label": "Github",
+      "url": "https://github.com/Inomjonov"
+    },
+    {
+      "label": "Huggingface",
+      "url": "https://huggingface.co/Inomjonov"
+    },
+    {
+      "label": "LinkedIn",
+      "url": "https://www.linkedin.com/in/mironshoh-inomjonov/"
+    }
+  ],
+  "researchIntro": "I'm interested in NLP, multimodal and representation learning.",
+  "research": [
+    {
+      "title": "Filling the Gap for Uzbek: Creating Translation Resources for Southern Uzbek",
+      "titleUrl": "https://aclanthology.org/2025.wmt-1.83/",
+      "image": "images/lutfiy.svg",
+      "imageAlt": "Southern Uzbek translation resources",
+      "authors": "[Mukhammadsaid Mamasaidov](https://mukhammadsaid.info/), Azizullah Aral, [Abror Shopulatov](https://murodbecks.github.io/), **Mironshoh Inomjonov**",
+      "venue": "*WMT*, EMNLP 2025",
+      "links": [
+        {
+          "label": "paper",
+          "url": "https://aclanthology.org/2025.wmt-1.83/"
+        },
+        {
+          "label": "arXiv",
+          "url": "https://arxiv.org/abs/2508.14586"
+        },
+        {
+          "label": "model",
+          "url": "https://huggingface.co/tahrirchi/lutfiy"
+        },
+        {
+          "label": "dataset",
+          "url": "https://huggingface.co/datasets/tahrirchi/lutfiy"
+        },
+        {
+          "label": "code",
+          "url": "https://github.com/tahrirchi/uzs-scripts"
+        }
+      ],
+      "description": "Southern Uzbek has around 5 million speakers in Afghanistan, yet differs from Northern Uzbek in phonology, lexicon and orthography enough that existing systems fail on it. We built a 997-sentence evaluation set and nearly 40,000 parallel pairs from dictionaries, literature and the web, trained a translation model, and added a post-processing step for Arabic-script word boundaries. All of it is openly available."
+    }
+  ],
+  "projects": [
+    {
+      "title": "neurograd",
+      "titleUrl": "https://github.com/Inomjonov/neurograd",
+      "image": "images/neurograd.svg",
+      "imageAlt": "neurograd computation graph",
+      "authors": "**Mironshoh Inomjonov**",
+      "venue": "*Python*, 2025",
+      "links": [
+        {
+          "label": "code",
+          "url": "https://github.com/Inomjonov/neurograd"
+        },
+        {
+          "label": "micrograd",
+          "url": "https://github.com/karpathy/micrograd"
+        }
+      ],
+      "description": "A deep learning framework inspired by Karpathy's micrograd. It implements reverse-mode automatic differentiation over a dynamically built DAG, extending scalar micrograd-style autodiff to vectors, and includes a minimal neural-network library with a PyTorch-like API. Install it with `pip install neurograd-vec`."
+    },
+    {
+      "title": "Uzbek Speech Models",
+      "titleUrl": "https://huggingface.co/Inomjonov",
+      "image": "images/speech.svg",
+      "imageAlt": "Uzbek speech models",
+      "authors": "**Mironshoh Inomjonov**",
+      "venue": "*Hugging Face*, 2025",
+      "links": [
+        {
+          "label": "STT model",
+          "url": "https://huggingface.co/Inomjonov/mironshoh-whisper-medium-uz-10k"
+        },
+        {
+          "label": "TTS model",
+          "url": "https://huggingface.co/Inomjonov/mironshoh-speecht5-tts-0702"
+        }
+      ],
+      "description": "End-to-end Uzbek speech-to-text and text-to-speech pipelines, built by fine-tuning Whisper-Medium and SpeechT5 on a single NVIDIA T4. The STT model reaches 20% WER from only 10 hours of speech data — a useful result for how little supervision a low-resource language usually has."
+    }
+  ],
+  "experience": [
+    {
+      "role": "Research Engineer",
+      "org": "tilmoch.ai",
+      "orgUrl": "https://tilmoch.ai/",
+      "logo": "images/logos/tilmoch.png",
+      "logoWide": false,
+      "dates": "Apr. 2025 – Present",
+      "location": "Tashkent, Uzbekistan",
+      "description": "Research on NLP and MT, plus large-scale data pipelines. Implemented Contrastive Preference Optimization (CPO) fine-tuning, raising COMET score over the baseline. Built an end-to-end parallel data mining pipeline that aligns sentences from literary translations via LaBSE cosine similarity, deployed on GCP."
+    },
+    {
+      "role": "ML Engineer",
+      "org": "Vention",
+      "orgUrl": "https://ventionteams.com/",
+      "logo": "images/logos/vention.png",
+      "logoWide": false,
+      "dates": "Dec. 2024 – Apr. 2025",
+      "location": "Tashkent, Uzbekistan",
+      "description": "Real-time computer vision for object and action detection, using YOLO, MobileNet and ViT on video streams. Designed a Laplacian-variance classifier that tells smoke apart from a fogged camera lens, for live visual quality assessment. Also built the Uzbek STT and TTS pipelines above."
+    },
+    {
+      "role": "ML Engineer",
+      "org": "KPI.com",
+      "orgUrl": "https://kpi.com/",
+      "logo": "images/logos/kpi.png",
+      "logoWide": false,
+      "dates": "Apr. 2023 – Dec. 2024",
+      "location": "London (Remote)",
+      "description": "Built a RAG chatbot with caching that cut mean response time from 5 seconds to 2. Developed an image-based invoice parsing system by fine-tuning Donut and deploying it on AWS EC2, and engineered the FastAPI back-end serving every ML pipeline."
+    }
+  ],
+  "education": [
+    {
+      "role": "MSc/PhD",
+      "org": "Sungkyunkwan University",
+      "orgUrl": "https://www.skku.edu/eng/",
+      "logo": "images/logos/skku.png",
+      "logoWide": true,
+      "dates": "2026 – Present",
+      "location": "South Korea",
+      "description": ""
+    },
+    {
+      "role": "BSc, Software Engineering",
+      "org": "New Uzbekistan University",
+      "orgUrl": "https://newuu.uz/",
+      "logo": "images/logos/newuu.svg",
+      "logoWide": true,
+      "dates": "2021 – 2025",
+      "location": "Tashkent, Uzbekistan",
+      "description": "Recipient of the Presidential scholarship, covering full undergraduate tuition. Coursework in Artificial Intelligence, Machine Learning, Operations Research, Numerical Methods, Probability & Statistics and Linear Algebra."
+    }
+  ]
+}
