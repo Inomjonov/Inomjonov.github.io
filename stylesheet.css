@@ -1,155 +1,90 @@
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxsAUi-qNiXg7eU0.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: italic;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Lato Italic'), local('Lato-Italic'), url(https://fonts.gstatic.com/s/lato/v15/S6u8w4BMUTPHjxsAXC-qNiXg7Q.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjxAwXiWtFCfQ7A.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: local('Lato Regular'), local('Lato-Regular'), url(https://fonts.gstatic.com/s/lato/v15/S6uyw4BMUTPHjx4wXiWtFCc.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
-/* latin-ext */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwaPGQ3q5d0N7w.woff2) format('woff2');
-  unicode-range: U+0100-024F, U+0259, U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20CF, U+2113, U+2C60-2C7F, U+A720-A7FF;
-}
-/* latin */
-@font-face {
-  font-family: 'Lato';
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-  src: local('Lato Bold'), local('Lato-Bold'), url(https://fonts.gstatic.com/s/lato/v15/S6u9w4BMUTPHh6UVSwiPGQ3q5d0.woff2) format('woff2');
-  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
-}
+/* Styling after ljvmiranda921.github.io: cream paper, a Vollkorn serif
+   reading column, Vollkorn SC small-caps headings and dark red links.
+   Fonts are loaded from Google Fonts in each page's <head>; the stack falls
+   back to Georgia offline. */
 
-/* Dark palette. To go pure black instead of dark blue, set --bg to #000
-   and --thumb-bg to #111. */
 :root {
-  --bg:      #0b0f19;
-  --text:    #c6d1e0;
-  --heading: #e8eef6;
-  --muted:   #8593a6;
-  --link:    #6cb0f5;
-  --hover:   #f09228;
+  --bg:      #fffff8;
+  --text:    #111111;
+  --heading: #111111;
+  --muted:   #828282;
+  --link:    #a00000;
+  --visited: #540000;
+  --hover:   #111111;
+  --rule:    #e8e8e8;
+  --mark:    #f4efc8;
 }
 
-html {
-  background: var(--bg);
-}
+html { background: var(--bg); }
 
 body {
-  background: var(--bg);
-  color: var(--text);
   margin: 0;
   padding: 0 0 40px;
-}
-
-a {
-  color: var(--link);
-  text-decoration: none;
-}
-
-a:focus,
-a:hover {
-  color: var(--hover);
-  text-decoration: none;
-}
-
-body,
-td,
-th,
-tr,
-p,
-a {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-}
-
-td,
-th,
-tr,
-p {
+  background: var(--bg);
   color: var(--text);
+  font-feature-settings: 'kern' 1, 'lnum' 1;
+  font-variant-numeric: lining-nums;
+  font-kerning: normal;
+  font-synthesis: none;
 }
+
+a { color: var(--link); text-decoration: none; }
+a:visited { color: var(--visited); }
+a:focus, a:hover { color: var(--hover); text-decoration: underline; }
+
+body, td, th, tr, p, a, li {
+  font-family: 'Vollkorn', Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+td, th, tr, p { color: var(--text); }
+
+p { text-wrap: pretty; overflow-wrap: break-word; }
 
 strong {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
   color: var(--heading);
 }
 
-em {
-  color: var(--muted);
-}
+em { color: var(--text); font-style: italic; }
 
 h2 {
   margin: 0;
-  font-weight: normal;
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 22px;
+  font-family: 'Vollkorn SC', Georgia, serif;
+  font-size: 24px;
+  font-weight: 600;
+  letter-spacing: .03em;
   color: var(--heading);
 }
 
 code {
-  font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  font-size: 13px;
+  font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+  font-size: 15px;
   color: var(--heading);
 }
 
-.date {
-  color: var(--muted);
-  font-size: 13px;
-}
+.date { color: var(--muted); font-size: 15.75px; }
 
 .papertitle {
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .name {
   padding-top: 20px;
   margin: 0;
-  font-family: 'Lato', Verdana, Helvetica, sans-serif;
-  font-size: 32px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 34px;
+  font-weight: 500;
+  letter-spacing: -.015em;
   color: var(--heading);
 }
 
-
-span.highlight {
-  background-color: #33405a;
-}
+span.highlight { background-color: var(--mark); }
 
 /* Employer / university logos. Square marks and wide wordmarks are
    normalised into the same optical box so the column reads evenly. */
@@ -180,26 +115,14 @@ span.highlight {
     max-width: 100% !important;
   }
 
-  .name {
-    font-size: 26px;
-  }
+  .name { font-size: 28px; }
 
-  td[style*="width:20%"] img {
-    max-width: 160px;
-    display: block;
-    margin: 0 auto;
-  }
-
-  td[style*="width:37%"] img {
-    max-width: 200px;
-    display: block;
-    margin: 0 auto;
-  }
+  td[style*="width:20%"] img { max-width: 160px; display: block; margin: 0 auto; }
+  td[style*="width:37%"] img { max-width: 200px; display: block; margin: 0 auto; }
 }
 
 /* ===== Recent posts and "What's new?" =====
-   Two columns under an ornamented rule, after ljvmiranda921.github.io.
-   Headings use Vollkorn SC small caps; the rest stays in the site's Lato. */
+   Two columns under an ornamented rule, after ljvmiranda921.github.io. */
 
 hr.ornament {
   position: relative;
@@ -218,7 +141,7 @@ hr.ornament::before {
   left: 0;
   width: 100%;
   height: 0;
-  border-top: 1px solid var(--rule, #223049);
+  border-top: 1px solid var(--heading);
 }
 
 hr.ornament::after {
@@ -229,7 +152,7 @@ hr.ornament::after {
   left: calc(50% - 1ch);
   width: 2ch;
   text-align: center;
-  font-size: 1.6rem;
+  font-size: 2rem;
   line-height: 2rem;
   background: var(--bg);
 }
@@ -238,44 +161,43 @@ hr.ornament::after {
 
 .home-heading {
   font-family: 'Vollkorn SC', Georgia, serif;
-  font-size: 20px;
+  font-size: 23.4px;
   font-weight: 600;
-  letter-spacing: .04em;
+  letter-spacing: .03em;
   color: var(--heading);
   margin: 0 0 12px;
 }
 
-.home-heading a,
-.home-heading a:visited { color: var(--heading); }
-.home-heading a:hover { color: var(--hover); }
+.home-heading a, .home-heading a:visited { color: var(--heading); }
+.home-heading a:hover { color: var(--link); text-decoration: none; }
 
 .home-post-list { list-style: none; margin: 0; padding: 0; }
 .home-post-list > li { margin-bottom: 22px; }
 
 .home-post-list .entry-date {
   display: block;
-  font-size: 13px;
+  font-size: 16.2px;
   color: var(--muted);
   margin-bottom: 2px;
 }
 
 .home-post-list h3 {
   margin: 0 0 4px;
-  font-size: 17px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 21.6px;
   font-weight: 400;
-  line-height: 1.3;
+  line-height: 1.25;
 }
 
 .home-post-list h3 a { color: var(--link); }
 .home-post-list h3 a:hover { color: var(--hover); }
-.home-post-list p { margin: 0; font-size: 13px; color: var(--text); }
+.home-post-list p { margin: 0; font-size: 16.2px; }
 
-.news-item { margin-bottom: 14px; }
-.news-item p { margin: 0; font-size: 13px; line-height: 1.55; }
-.news-item .date { color: var(--heading); }
-.news-item .date strong { font-size: 13px; }
+.news-item { margin-bottom: .7em; }
+.news-item p { margin: 0; font-size: 16.2px; line-height: 1.5; }
+.news-item .date { color: var(--heading); font-size: 16.2px; }
 
-.home-empty { color: var(--muted); font-size: 13px; list-style: none; }
+.home-empty { color: var(--muted); font-size: 16.2px; list-style: none; }
 
 @media screen and (min-width: 769px) {
   .home-sections { display: flex; gap: 30px; width: 100%; }

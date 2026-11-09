@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" width="160" height="160">
-  <rect width="160" height="160" fill="#161c28"/>
-  <text x="80" y="52" font-family="Lato, Verdana, sans-serif" font-size="15"
-        fill="#8996aa" text-anchor="middle">uzn</text>
-  <path d="M62 74 L98 74 M90 66 L98 74 L90 82" stroke="#f09228"
+  <rect width="160" height="160" fill="#f2efe2"/>
+  <text x="80" y="52" font-family="Vollkorn, Georgia, serif" font-size="15"
+        fill="#6b6a60" text-anchor="middle">uzn</text>
+  <path d="M62 74 L98 74 M90 66 L98 74 L90 82" stroke="#a00000"
         stroke-width="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
-  <text x="80" y="112" font-family="Lato, Verdana, sans-serif" font-size="15"
-        fill="#f09228" text-anchor="middle">uzs</text>
-  <text x="80" y="140" font-family="Lato, Verdana, sans-serif" font-size="10"
-        fill="#8996aa" text-anchor="middle">40k pairs</text>
+  <text x="80" y="112" font-family="Vollkorn, Georgia, serif" font-size="15"
+        fill="#a00000" text-anchor="middle">uzs</text>
+  <text x="80" y="140" font-family="Vollkorn, Georgia, serif" font-size="10"
+        fill="#6b6a60" text-anchor="middle">40k pairs</text>
 </svg>

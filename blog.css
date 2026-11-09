@@ -5,15 +5,17 @@
    do not load stylesheet.css, whose 14px Lato table styles would fight it. */
 
 :root {
-  --bg:       #0b0f19;
-  --text:     #c6d1e0;
-  --heading:  #e8eef6;
-  --muted:    #8593a6;
-  --link:     #6cb0f5;
-  --hover:    #f09228;
-  --rule:     #223049;
-  --panel:    #111827;
-  --field:    #0e1320;
+  --bg:       #fffff8;
+  --text:     #111111;
+  --heading:  #111111;
+  --muted:    #828282;
+  --link:     #a00000;
+  --visited:  #540000;
+  --hover:    #111111;
+  --rule:     #e8e8e8;
+  --panel:    #fbfbf0;
+  --field:    #ffffff;
+  --border:   #d8d8cc;
   --gap:      30px;
   --measure:  840px;
 }
@@ -49,9 +51,9 @@ img { max-width: 100%; vertical-align: middle; }
 figure > img { display: block; }
 
 a { color: var(--link); text-decoration: none; }
-a:visited { color: var(--link); }
+a:visited { color: var(--visited); }
 a:focus, a:hover { color: var(--hover); text-decoration: underline; }
-:focus-visible { outline: 2px solid var(--hover); outline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--link); outline-offset: 3px; }
 
 code, pre, kbd {
   font-family: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
@@ -96,7 +98,7 @@ code, pre, kbd {
 }
 
 .site-title, .site-title:visited { color: var(--heading); }
-.site-title:hover { color: var(--hover); text-decoration: none; }
+.site-title:hover { color: var(--link); text-decoration: none; }
 
 /* Leading "·" before every link, with the first one clipped away. */
 .site-nav {
@@ -121,13 +123,13 @@ code, pre, kbd {
 }
 
 .site-nav .page-link:hover,
-.site-nav .page-link[aria-current='page'] { color: var(--hover); }
+.site-nav .page-link[aria-current='page'] { color: var(--link); }
 .site-nav .page-link[aria-current='page'] { text-decoration: none; }
 
 /* ---------- Page heading ---------- */
 
 .page-title {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Vollkorn', Georgia, serif;
   font-size: 36px;
   font-weight: 500;
   letter-spacing: -.01em;
@@ -142,15 +144,15 @@ code, pre, kbd {
 .post-list > * + * { margin-top: var(--gap); padding-top: var(--gap); border-top: 1px solid var(--rule); }
 
 .entry-title {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  font-size: 24px;
+  font-family: 'Vollkorn', Georgia, serif;
+  font-size: 25.2px;
   font-weight: 500;
   letter-spacing: -.01em;
   line-height: 1.25;
   margin-bottom: 2px;
 }
 
-.entry-title a, .entry-title a:visited { color: var(--heading); }
+.entry-title a, .entry-title a:visited { color: var(--link); }
 .entry-title a:hover { color: var(--hover); }
 .entry-excerpt { margin-top: 10px; margin-bottom: 0; }
 
@@ -246,7 +248,7 @@ code, pre, kbd {
 }
 
 .post-navigation a { display: block; color: var(--muted); }
-.post-navigation a:hover { color: var(--hover); }
+.post-navigation a:hover { color: var(--link); }
 .post-navigation .nav-label { display: block; color: var(--text); }
 .post-navigation .nav-prev { flex: 1; }
 .post-navigation .nav-next { flex: 1; text-align: right; }
@@ -271,7 +273,7 @@ code, pre, kbd {
 }
 
 #status:empty { padding: 0; }
-#status.error { color: #ffb1b1; }
+#status.error { color: #a00000; font-weight: 600; }
 
 .panel {
   background: var(--panel);
@@ -292,7 +294,7 @@ input, textarea {
   padding: 12px;
   color: var(--heading);
   background: var(--field);
-  border: 1px solid #43516a;
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 16px;
 }
@@ -303,17 +305,17 @@ button {
   cursor: pointer;
   padding: 10px 16px;
   color: var(--heading);
-  background: #1a2940;
-  border: 1px solid #43516a;
+  background: #f2f1e4;
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   font-size: 16px;
 }
 
-button.primary { background: #82baff; color: #0b0f19; border-color: #82baff; }
+button.primary { background: var(--link); color: #fffff8; border-color: var(--link); }
 button:disabled { opacity: .5; cursor: wait; }
 
-.content-block { border: 1px solid #344158; border-radius: 8px; padding: 16px; margin: 20px 0; }
+.content-block { border: 1px solid var(--border); border-radius: 8px; padding: 16px; margin: 20px 0; }
 .content-block h3 { margin: 0; font-size: 16px; font-weight: 400; }
 .block-actions { margin-top: 16px; }
 
