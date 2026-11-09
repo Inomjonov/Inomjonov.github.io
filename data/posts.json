@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "title": "",
+    "blocks": [
+      {
+        "type": "text",
+        "text": "Started at  Sungkyunkwan University as combined MSc/PhD student.\nJoined InfoLab [https://infolab-skku.github.io/] under supervision of Prof. Tamer Abuhmed.\nWorking on VLMs.",
+        "id": "b672a7d4-b760-4017-8d36-35133f9e9b07"
+      }
+    ],
+    "id": "0436dc47-f7ca-4a65-a842-7b3de8fc66d3",
+    "kind": "update",
+    "date": "2026-08-31",
+    "createdAt": "2026-11-09T19:52:42.888Z",
+    "updatedAt": "2026-11-09T19:52:42.888Z"
+  }
+]
