@@ -8,6 +8,9 @@
     <meta name="author" content="Mironshoh Inomjonov">
     <meta name="description" content="Research Engineer at tilmoch.ai. Interested in NLP, multimodal and representation learning.">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vollkorn+SC:wght@400;600&display=swap">
     <link rel="stylesheet" type="text/css" href="stylesheet.css">
 
   </head>
@@ -53,6 +56,29 @@
                 <img style="width:100%;max-width:100%;object-fit: cover; border-radius: 50%; aspect-ratio: 1 / 1;"
                      alt="Mironshoh Inomjonov" src="images/profile.jpg"
                      onerror="this.onerror=null;this.src='images/profile.svg';">
+              </td>
+            </tr>
+          </tbody></table>
+
+          <!-- ===== Recent posts and updates ===== -->
+          <table style="width:100%;border:0px;border-spacing:0px;border-collapse:separate;margin-right:auto;margin-left:auto;"><tbody>
+            <tr>
+              <td style="padding:16px;width:100%;vertical-align:top">
+                <hr class="ornament">
+                <div class="home-sections">
+                  <div class="column">
+                    <h2 class="home-heading"><a href="blog/">Recent posts</a></h2>
+                    <ul id="home-posts" class="home-post-list" aria-live="polite">
+                      <li class="home-empty">Loading&hellip;</li>
+                    </ul>
+                  </div>
+                  <div class="column">
+                    <h2 class="home-heading"><a href="blog/#updates">What&rsquo;s new?</a></h2>
+                    <div id="home-updates" aria-live="polite">
+                      <p class="home-empty">Loading&hellip;</p>
+                    </div>
+                  </div>
+                </div>
               </td>
             </tr>
           </tbody></table>
@@ -283,5 +309,6 @@
         </td>
       </tr>
     </table>
+    <script type="module" src="home.js"></script>
   </body>
 </html>

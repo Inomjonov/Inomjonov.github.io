@@ -33,8 +33,15 @@
       <section class="panel">
         <h2 id="editor-heading">New post</h2>
         <form id="editor">
-          <label for="title">Title</label><input id="title" required maxlength="180">
-          <p class="muted">Add text, images, and links in any order. Split text into separate blocks to place an image between paragraphs. Use ↑ and ↓ to reorder.</p>
+          <fieldset class="kind-field">
+            <legend>Type</legend>
+            <label class="choice"><input type="radio" name="kind" value="post" checked> Long post &mdash; appears on the blog</label>
+            <label class="choice"><input type="radio" name="kind" value="update"> Update &mdash; a short note for &ldquo;What&rsquo;s new?&rdquo;</label>
+          </fieldset>
+          <div id="title-field">
+            <label for="title">Title</label><input id="title" maxlength="180">
+          </div>
+          <p class="muted" id="editor-hint">Add text, images, and links in any order. Split text into separate blocks to place an image between paragraphs. Use ↑ and ↓ to reorder. Inside text, <code>[label](https://example.com)</code> becomes a link.</p>
           <div id="blocks"></div>
           <div class="actions" aria-label="Add content"><button id="add-text" type="button">+ Text</button><button id="add-image" type="button">+ Image</button><button id="add-link" type="button">+ Link</button></div>
           <p class="muted">Draft text is saved in this browser. Publishing commits to GitHub; the live site updates after GitHub Pages deploys.</p>
@@ -42,7 +49,7 @@
         </form>
       </section>
       <section id="preview-panel" class="panel" hidden><h2>Preview</h2><div id="preview"></div></section>
-      <section class="panel"><h2>Published posts</h2><div id="post-list"></div></section>
+      <section class="panel"><h2>Published posts and updates</h2><div id="post-list"></div></section>
     </div>
     <noscript><p class="muted">Enable JavaScript to use the admin editor.</p></noscript>
   </div></main>

@@ -1,4 +1,4 @@
-import { renderPost, safeURL, postBlocks } from '../blog/post.js';
+import { renderPost, renderUpdate, safeURL, postBlocks, postKind, formatMonth } from '../blog/post.js';
 
 const REPO = 'Inomjonov/Inomjonov.github.io';
 const BRANCH = 'main';
@@ -8,7 +8,7 @@ let blocks = [];
 const files = new Map();
 let previewURLs = [];
 const $ = id => document.getElementById(id);
-let token = '', posts = [], sha = '', editing = null, busy = false;
+let token = '', posts = [], sha = '', editing = null, busy = false, kind = 'post';
 
 function status(message, error = false) {
   $('status').textContent = message;
@@ -70,7 +70,29 @@ async function savePosts(next, message) {
 }
 
 function draft() {
-  return { title: $('title').value.trim(), blocks: blocks.map(block => ({ ...block })), id: editing };
+  return { title: $('title').value.trim(), blocks: blocks.map(block => ({ ...block })), id: editing, kind };
+}
+
+// Updates carry no title and only text, so the unused controls are hidden.
+function applyKind() {
+  const update = kind === 'update';
+  $('title-field').hidden = update;
+  $('add-image').hidden = update;
+  $('add-link').hidden = update;
+  $('editor-hint').textContent = update
+    ? 'A short dated note. Write it as one or two text blocks; [label](https://example.com) becomes a link.'
+    : 'Add text, images, and links in any order. Split text into separate blocks to place an image between paragraphs. Use the arrows to reorder. Inside text, [label](https://example.com) becomes a link.';
+}
+
+function setKind(value) {
+  kind = value === 'update' ? 'update' : 'post';
+  const radio = document.querySelector(`input[name="kind"][value="${kind}"]`);
+  if (radio) radio.checked = true;
+  applyKind();
+}
+
+for (const radio of document.querySelectorAll('input[name="kind"]')) {
+  radio.addEventListener('change', () => { if (radio.checked) { setKind(radio.value); saveDraft(); } });
 }
 
 function saveDraft() {
@@ -91,11 +113,13 @@ function restoreDraft() {
     if (saved) {
       $('title').value = saved.title || '';
       editing = saved.id || null;
+      setKind(saved.kind);
       setBlocks(saved);
       $('editor-heading').textContent = editing ? 'Edit post' : 'New post';
       return;
     }
   } catch { /* An invalid draft must not prevent signing in. */ }
+  setKind('post');
   setBlocks({});
 }
 
@@ -111,6 +135,7 @@ function reset(clearDraft = true) {
   editing = null;
   $('editor-heading').textContent = 'New post';
   clearPreview();
+  setKind('post');
   setBlocks({});
   if (clearDraft) {
     try { localStorage.removeItem(DRAFT); } catch { /* Storage may be disabled. */ }
@@ -280,7 +305,7 @@ $('preview-button').addEventListener('click', () => {
     images.set(id, url);
   }
   const post = { ...draft(), createdAt: posts.find(p => p.id === editing)?.createdAt || new Date().toISOString() };
-  $('preview').replaceChildren(renderPost(post, images));
+  $('preview').replaceChildren(kind === 'update' ? renderUpdate(post) : renderPost(post, images));
   $('preview-panel').hidden = false;
 });
 
@@ -309,7 +334,16 @@ $('editor').addEventListener('submit', event => {
   run(async () => {
     saveDraft();
     const value = draft();
-    if (!value.title || !value.blocks.length) throw new Error('Add a title and at least one content block.');
+    if (!value.blocks.length) throw new Error('Add at least one content block.');
+    if (kind === 'post' && !value.title) throw new Error('Add a title.');
+    if (kind === 'update') {
+      if (!value.blocks.some(block => block.type === 'text' && block.text?.trim())) {
+        throw new Error('Write the update in a text block.');
+      }
+      if (value.blocks.some(block => block.type !== 'text')) {
+        throw new Error('An update holds text only. Remove the image and link blocks, or switch the type to Long post.');
+      }
+    }
     for (const block of value.blocks) {
       if (block.type === 'text' && !block.text?.trim()) throw new Error('Write something in each text block, or remove empty blocks.');
       if (block.type === 'link' && (!block.link?.trim() || !safeURL(block.link))) throw new Error('Add an HTTP or HTTPS URL to each link block.');
@@ -336,20 +370,29 @@ $('editor').addEventListener('submit', event => {
     const existing = posts.find(post => post.id === editing);
     const post = { ...value, id: editing || crypto.randomUUID(), createdAt: existing?.createdAt || new Date().toISOString(), updatedAt: new Date().toISOString() };
     const next = existing ? posts.map(item => item.id === editing ? post : item) : [post, ...posts];
-    await savePosts(next, `${existing ? 'Update' : 'Publish'} blog post: ${post.title}`);
+    const label = kind === 'update' ? `update: ${formatMonth(post.createdAt)}` : `blog post: ${post.title}`;
+    await savePosts(next, `${existing ? 'Update' : 'Publish'} ${label}`);
     reset();
-    status('Published to GitHub. The blog will update when GitHub Pages finishes deploying.');
+    status(kind === 'update'
+      ? 'Update published. It appears under “What’s new?” once GitHub Pages finishes deploying.'
+      : 'Published to GitHub. The blog will update when GitHub Pages finishes deploying.');
   });
 });
 
 function listPosts() {
   $('post-list').replaceChildren();
-  if (!posts.length) { $('post-list').textContent = 'No published posts yet.'; return; }
+  if (!posts.length) { $('post-list').textContent = 'Nothing published yet.'; return; }
   for (const post of [...posts].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))) {
     const row = document.createElement('div');
     row.className = 'post-row';
     const title = document.createElement('span');
-    title.textContent = post.title;
+    const entryKind = postKind(post);
+    const tag = document.createElement('span');
+    tag.className = 'kind-tag';
+    tag.textContent = entryKind === 'update' ? 'Update' : 'Post';
+    title.append(tag, entryKind === 'update'
+      ? `${formatMonth(post.createdAt)} — ${(post.blocks?.find(b => b.type === 'text')?.text || '').slice(0, 60)}`
+      : post.title);
     const actions = document.createElement('div');
     actions.className = 'actions';
     const edit = document.createElement('button');
@@ -358,19 +401,22 @@ function listPosts() {
       if (hasDraft() && !confirm('Replace your current draft with this post?')) return;
       reset();
       editing = post.id;
+      setKind(postKind(post));
       $('title').value = post.title || '';
       setBlocks(post);
-      $('editor-heading').textContent = 'Edit post';
+      $('editor-heading').textContent = entryKind === 'update' ? 'Edit update' : 'Edit post';
       saveDraft();
       $('title').focus();
     });
     const remove = document.createElement('button');
     remove.textContent = 'Delete';
     remove.addEventListener('click', () => {
-      if (!confirm(`Delete “${post.title}” from the public blog?`)) return;
+      const name = entryKind === 'update' ? `the ${formatMonth(post.createdAt)} update` : `“${post.title}”`;
+      if (!confirm(`Delete ${name} from the public site?`)) return;
       run(async () => {
         status('Deleting…');
-        await savePosts(posts.filter(item => item.id !== post.id), `Delete blog post: ${post.title}`);
+        await savePosts(posts.filter(item => item.id !== post.id),
+          `Delete ${entryKind === 'update' ? `update: ${formatMonth(post.createdAt)}` : `blog post: ${post.title}`}`);
         if (editing === post.id) reset();
         status('Post deleted. GitHub Pages will update shortly.');
       });

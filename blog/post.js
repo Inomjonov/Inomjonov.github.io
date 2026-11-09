@@ -22,6 +22,8 @@ export function postBlocks(post) {
   return blocks;
 }
 
+const INLINE_LINK = /\[([^\]\n]+)\]\(([^)\s]+)\)/g;
+
 function bodyText(post) {
   return postBlocks(post).filter(block => block.type === 'text').map(block => block.text || '').join('\n\n');
 }
@@ -31,19 +33,36 @@ export function postWords(post) {
 }
 
 export function postExcerpt(post, limit = 260) {
-  const text = bodyText(post).replace(/\s+/g, ' ').trim();
+  // Excerpts are plain text, so inline links collapse to their label.
+  const text = bodyText(post).replace(INLINE_LINK, '$1').replace(/\s+/g, ' ').trim();
   if (text.length <= limit) return text;
   return `${text.slice(0, limit).replace(/\s+\S*$/, '')}…`;
 }
 
-export function postURL(post) {
-  return `post.html?id=${encodeURIComponent(post.id)}`;
+// 'post' is a longread; 'update' is a short dated note for "What's new?".
+export function postKind(post) {
+  return post.kind === 'update' ? 'update' : 'post';
+}
+
+export function isPost(post) { return postKind(post) === 'post'; }
+export function isUpdate(post) { return postKind(post) === 'update'; }
+
+// base is '' from inside /blog/, 'blog/' from the site root.
+export function postURL(post, base = '') {
+  return `${base}post.html?id=${encodeURIComponent(post.id)}`;
 }
 
 export function formatDate(value) {
   const date = new Date(value);
   if (Number.isNaN(date.valueOf())) return '';
   return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+}
+
+// "Aug 2026", the label an update is filed under.
+export function formatMonth(value) {
+  const date = new Date(value);
+  if (Number.isNaN(date.valueOf())) return '';
+  return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short' });
 }
 
 export function byNewest(a, b) {
@@ -86,6 +105,24 @@ function renderFigure(block, previewImages) {
   return figure;
 }
 
+// Appends text to parent, turning [label](url) into real anchors. Unsafe or
+// malformed URLs are left as the literal source text rather than dropped.
+export function appendInline(parent, text) {
+  let cursor = 0;
+  for (const match of text.matchAll(INLINE_LINK)) {
+    const url = safeURL(match[2]);
+    if (!url) continue;
+    if (match.index > cursor) parent.append(text.slice(cursor, match.index));
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.textContent = match[1];
+    anchor.rel = 'noopener noreferrer';
+    parent.append(anchor);
+    cursor = match.index + match[0].length;
+  }
+  if (cursor < text.length) parent.append(text.slice(cursor));
+}
+
 function renderParagraphs(text, dropCap) {
   const paragraphs = (text || '').split(/\n\s*\n/).map(part => part.trim()).filter(Boolean);
   return paragraphs.map((paragraph, index) => {
@@ -96,9 +133,10 @@ function renderParagraphs(text, dropCap) {
       const cap = document.createElement('span');
       cap.className = 'firstcharacter';
       cap.textContent = characters[0];
-      p.append(cap, characters.slice(1).join(''));
+      p.append(cap);
+      appendInline(p, characters.slice(1).join(''));
     } else {
-      p.textContent = paragraph;
+      appendInline(p, paragraph);
     }
     return p;
   });
@@ -161,4 +199,37 @@ export function renderCard(post) {
   excerpt.textContent = postExcerpt(post);
   article.append(heading, renderMeta(post), excerpt);
   return article;
+}
+
+// A short dated note: "Aug 2026: ..." with inline links.
+export function renderUpdate(post) {
+  const item = document.createElement('div');
+  item.className = 'news-item';
+  const p = document.createElement('p');
+  const date = document.createElement('span');
+  date.className = 'date';
+  const strong = document.createElement('strong');
+  strong.textContent = formatMonth(post.createdAt);
+  date.append(strong);
+  p.append(date, ': ');
+  appendInline(p, bodyText(post).replace(/\s+/g, ' ').trim());
+  item.append(p);
+  return item;
+}
+
+// A compact "Recent posts" entry for the homepage column.
+export function renderHomeEntry(post, base = '') {
+  const item = document.createElement('li');
+  const meta = document.createElement('span');
+  meta.className = 'entry-date';
+  meta.textContent = formatDate(post.createdAt);
+  const heading = document.createElement('h3');
+  const link = document.createElement('a');
+  link.href = postURL(post, base);
+  link.textContent = post.title || 'Untitled';
+  heading.append(link);
+  const excerpt = document.createElement('p');
+  excerpt.textContent = postExcerpt(post, 180);
+  item.append(meta, heading, excerpt);
+  return item;
 }

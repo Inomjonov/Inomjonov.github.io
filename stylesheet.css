@@ -196,3 +196,88 @@ span.highlight {
     margin: 0 auto;
   }
 }
+
+/* ===== Recent posts and "What's new?" =====
+   Two columns under an ornamented rule, after ljvmiranda921.github.io.
+   Headings use Vollkorn SC small caps; the rest stays in the site's Lato. */
+
+hr.ornament {
+  position: relative;
+  display: block;
+  height: 2rem;
+  margin: 8px 0 24px;
+  border: 0;
+  color: var(--heading);
+}
+
+hr.ornament::before {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 0;
+  border-top: 1px solid var(--rule, #223049);
+}
+
+hr.ornament::after {
+  content: "\2767";
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: calc(50% - 1ch);
+  width: 2ch;
+  text-align: center;
+  font-size: 1.6rem;
+  line-height: 2rem;
+  background: var(--bg);
+}
+
+.home-sections { display: block; }
+
+.home-heading {
+  font-family: 'Vollkorn SC', Georgia, serif;
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: .04em;
+  color: var(--heading);
+  margin: 0 0 12px;
+}
+
+.home-heading a,
+.home-heading a:visited { color: var(--heading); }
+.home-heading a:hover { color: var(--hover); }
+
+.home-post-list { list-style: none; margin: 0; padding: 0; }
+.home-post-list > li { margin-bottom: 22px; }
+
+.home-post-list .entry-date {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 2px;
+}
+
+.home-post-list h3 {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 400;
+  line-height: 1.3;
+}
+
+.home-post-list h3 a { color: var(--link); }
+.home-post-list h3 a:hover { color: var(--hover); }
+.home-post-list p { margin: 0; font-size: 13px; color: var(--text); }
+
+.news-item { margin-bottom: 14px; }
+.news-item p { margin: 0; font-size: 13px; line-height: 1.55; }
+.news-item .date { color: var(--heading); }
+.news-item .date strong { font-size: 13px; }
+
+.home-empty { color: var(--muted); font-size: 13px; list-style: none; }
+
+@media screen and (min-width: 769px) {
+  .home-sections { display: flex; gap: 30px; width: 100%; }
+  .home-sections .column { flex: 1 1 0; min-width: 0; }
+}
