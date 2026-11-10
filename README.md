@@ -20,6 +20,24 @@ meta line. Inter is reserved for a single post's title. `blog.css` is
 self-contained and deliberately does *not* load `stylesheet.css`. Fonts come
 from Google Fonts, so the serif falls back to Georgia offline.
 
+## Homepage content
+
+The homepage is **generated**. Its content lives in `data/profile.json` — name,
+photo, bio, the link row, research intro, publications, projects, experience
+and education — and `admin/template.js` renders it into `index.html` as plain
+static HTML. Editing it is the **Site content** panel in `/admin/`; saving
+writes `data/profile.json` and the regenerated `index.html` in a single commit
+via the Git Data API, so the data and the page it produces can never land
+separately.
+
+Do not hand-edit `index.html`: the next save from the editor overwrites it.
+Change `admin/template.js` for structure, `data/profile.json` for content.
+
+Values are HTML-escaped, and hrefs are limited to relative paths, `http(s)`
+and `mailto`, so a `javascript:` URL in the data renders as `#`. Text fields
+take `[label](url)`, `**bold**`, `*italic*` and `` `code` ``. Item links are
+entered one per line as `label|url`.
+
 ## Posts and updates
 
 Each entry in `data/posts.json` carries a `kind`:

@@ -52,6 +52,50 @@
       </section>
       <section id="preview-panel" class="panel" hidden><h2>Preview</h2><div id="preview"></div></section>
       <section class="panel"><h2>Published posts and updates</h2><div id="post-list"></div></section>
+      <section id="profile-panel" class="panel" hidden>
+        <h2>Site content</h2>
+        <p class="muted">The homepage: your bio, links, publications, projects, experience and
+          education. Saving rewrites <code>data/profile.json</code> and regenerates
+          <code>index.html</code> in one commit. Text fields accept
+          <code>[label](https://example.com)</code>, <code>**bold**</code>,
+          <code>*italic*</code> and <code>`code`</code>.</p>
+
+        <label for="profile-name">Name</label>
+        <input id="profile-name" maxlength="120">
+        <label for="profile-photo">Photo path</label>
+        <input id="profile-photo" maxlength="300">
+        <label for="profile-description">Search description</label>
+        <input id="profile-description" maxlength="300">
+
+        <h3 class="section-title">Bio</h3>
+        <div id="section-bio"></div>
+
+        <h3 class="section-title">Links</h3>
+        <div id="section-links"></div>
+
+        <h3 class="section-title">Research</h3>
+        <label for="profile-research-intro">Research intro line</label>
+        <input id="profile-research-intro" maxlength="300">
+        <div id="section-research"></div>
+
+        <h3 class="section-title">Projects</h3>
+        <div id="section-projects"></div>
+
+        <h3 class="section-title">Experience</h3>
+        <div id="section-experience"></div>
+
+        <h3 class="section-title">Education</h3>
+        <div id="section-education"></div>
+
+        <div class="actions">
+          <button id="profile-save" type="button" class="primary">Save site content</button>
+          <button id="profile-preview" type="button">Preview homepage</button>
+        </div>
+      </section>
+      <section id="profile-preview-panel" class="panel" hidden>
+        <h2>Homepage preview</h2>
+        <iframe id="profile-preview-frame" title="Homepage preview"></iframe>
+      </section>
     </div>
     <noscript><p class="muted">Enable JavaScript to use the admin editor.</p></noscript>
   </div></main>

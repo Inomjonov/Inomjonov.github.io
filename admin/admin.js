@@ -1,14 +1,14 @@
 import { renderPost, renderUpdate, safeURL, postBlocks, postKind, formatMonth, entryDate, byNewest } from '../blog/post.js';
+import { REPO, BRANCH, api, encode, decode, setToken } from './github.js';
+import { initProfileEditor, loadProfile, resetProfileEditor } from './profile.js';
 
-const REPO = 'Inomjonov/Inomjonov.github.io';
-const BRANCH = 'main';
 const PATH = 'data/posts.json';
 const DRAFT = 'inomjonov-blog-draft-v1';
 let blocks = [];
 const files = new Map();
 let previewURLs = [];
 const $ = id => document.getElementById(id);
-let token = '', posts = [], sha = '', editing = null, busy = false, kind = 'post';
+let posts = [], sha = '', editing = null, busy = false, kind = 'post';
 
 function status(message, error = false) {
   $('status').textContent = message;
@@ -17,42 +17,10 @@ function status(message, error = false) {
   if (error) $('status').scrollIntoView({ block: 'center', behavior: 'smooth' });
 }
 
-async function api(path, options = {}) {
-  const response = await fetch(`https://api.github.com${path}`, {
-    ...options,
-    headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`,
-      'X-GitHub-Api-Version': '2022-11-28', ...(options.body ? { 'Content-Type': 'application/json' } : {}) },
-    cache: 'no-store',
-  });
-  if (!response.ok) {
-    // GitHub explains the real cause in the body; without it every failure looks the same.
-    let detail = '';
-    try {
-      const body = await response.json();
-      detail = [body.message, ...(body.errors || []).map(item => item.message || item.code)].filter(Boolean).join(' — ');
-    } catch { /* Error bodies are not always JSON. */ }
-    const said = detail ? ` GitHub said: ${detail}` : '';
-    if (response.status === 409 || response.status === 422) throw new Error(`The repository changed or rejected the commit. Sign out and back in to reload posts; your draft is saved.${said}`);
-    if (response.status === 401) throw new Error(`Your GitHub token is invalid or expired. Sign out and sign in with a valid token.${said}`);
-    if (response.status === 403) throw new Error(`GitHub denied this request (403). Check that the token grants Contents: Read and write on this repository, has not expired, and — for a fine-grained token on an organisation — has been approved.${said}`);
-    if (response.status === 404) throw new Error(`GitHub returned 404. A fine-grained token that cannot see this repository reports it as missing, so check the token's repository access.${said}`);
-    throw new Error(`GitHub request failed (${response.status}).${said}`);
-  }
-  return response.json();
-}
-
-function encode(text) {
-  const bytes = new TextEncoder().encode(text);
-  let binary = '';
-  for (const byte of bytes) binary += String.fromCharCode(byte);
-  return btoa(binary);
-}
-
 async function loadPosts() {
   const file = await api(`/repos/${REPO}/contents/${PATH}?ref=${BRANCH}`);
   if (!file.content) throw new Error('The posts file is too large for this editor. Split or archive older posts before continuing.');
-  const decoded = new TextDecoder().decode(Uint8Array.from(atob(file.content.replace(/\s/g, '')), char => char.charCodeAt(0)));
-  const loaded = JSON.parse(decoded);
+  const loaded = JSON.parse(decode(file.content));
   if (!Array.isArray(loaded)) throw new Error('The posts file has an invalid format.');
   posts = loaded;
   sha = file.sha;
@@ -276,29 +244,31 @@ $('login-form').addEventListener('submit', event => {
   event.preventDefault();
   run(async () => {
     status('Signing in…');
-    token = $('token').value.trim();
+    setToken($('token').value.trim());
     $('token').value = '';
     try {
       const user = await api('/user');
       const repo = await api(`/repos/${REPO}`);
       if (!repo.permissions?.push) throw new Error('This GitHub account does not have write access to the site repository.');
       await loadPosts();
+      await loadProfile();
       $('identity').textContent = `Signed in as ${user.login}`;
       $('login-panel').hidden = true;
       $('workspace').hidden = false;
       restoreDraft();
       listPosts();
       status('Ready to write.');
-    } catch (error) { token = ''; throw error; }
+    } catch (error) { setToken(''); throw error; }
   });
 });
 
 $('logout').addEventListener('click', () => {
   saveDraft();
-  token = '';
+  setToken('');
   posts = [];
   sha = '';
   reset(false);
+  resetProfileEditor();
   $('workspace').hidden = true;
   $('login-panel').hidden = false;
   $('post-list').replaceChildren();
@@ -444,6 +414,8 @@ function listPosts() {
     $('post-list').append(row);
   }
 }
+
+initProfileEditor({ run, status });
 
 window.addEventListener('beforeunload', event => {
   if (busy) { event.preventDefault(); event.returnValue = ''; }
